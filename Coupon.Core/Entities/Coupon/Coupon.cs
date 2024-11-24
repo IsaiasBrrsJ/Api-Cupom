@@ -12,8 +12,8 @@ namespace Coupon.Core.Entities.Coupon
         public DateTime EventDate { get; init; }    
         public int MaxCoupon { get; init; }
         public DateTime CreationDate { get; private set; }
-        public virtual Description Description { get; init; }
-        public Guid DescriptionId { get; init; }
+        public virtual ICollection<Description>? Descriptions { get; init; }
+     
 
         public void Deactivate()
         {
@@ -48,7 +48,7 @@ namespace Coupon.Core.Entities.Coupon
 
         private void HasDescription()
         {
-            if (Description == null)
+            if (Descriptions == null)
                 throw new InvalidOperationException("Informe a razao da modificação");
         }
         public static class Factories
