@@ -14,7 +14,7 @@ namespace Coupon.Infrastructure.Persistence
         
         public DbSet<Core.Entities.Coupon.Coupon> Coupon { get; set; }
         public DbSet<Client> Clients { get; set; }  
-        public DbSet<Descount> Desconto { get; set; }
+        public DbSet<Descount> Descounts { get; set; }
         public DbSet<Description> Descriptions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
