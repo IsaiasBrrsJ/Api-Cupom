@@ -14,10 +14,6 @@ namespace Coupon.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Id)
                 .ValueGeneratedNever();
 
-            builder
-             .HasOne(x => x.Description)
-             .WithMany(x => x.Descounts)
-             .HasForeignKey(x => x.DescriptionId);
         }
     }
 }

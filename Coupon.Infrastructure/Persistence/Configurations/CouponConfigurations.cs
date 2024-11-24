@@ -16,10 +16,6 @@ namespace Coupon.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Price)
                   .HasColumnType("decimal(10,2)");
 
-            builder
-              .HasOne(x => x.Description)
-              .WithMany(x => x.Coupons)
-              .HasForeignKey(x => x.DescriptionId);
         }
     }
 }
