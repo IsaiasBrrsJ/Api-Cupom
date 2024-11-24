@@ -6,7 +6,7 @@ namespace Coupon.Application.Abstractions
 {
     public interface IClientController<T> where T : ControllerBase
     {
-        public Task<IActionResult> AddClient(ClientInputModel clientModel);
+         Task<IActionResult> AddClient(ClientInputModel clientModel);
 
     }
 }

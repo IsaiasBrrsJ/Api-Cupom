@@ -1,9 +1,6 @@
 ﻿using Coupon.Application.Abstractions;
 using Coupon.Application.Command;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyModel.Resolution;
 
 namespace Coupon.API.Controllers
 {

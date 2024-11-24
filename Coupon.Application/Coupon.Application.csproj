@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\Coupon.Core\Coupon.Core.csproj" />
   </ItemGroup>
 
 </Project>
