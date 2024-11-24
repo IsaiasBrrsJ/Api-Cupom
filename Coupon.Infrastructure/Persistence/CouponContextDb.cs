@@ -16,6 +16,7 @@ namespace Coupon.Infrastructure.Persistence
         public DbSet<Client> Clients { get; set; }  
         public DbSet<Descount> Descounts { get; set; }
         public DbSet<Description> Descriptions { get; set; }
+        public DbSet<Photo> Photos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var model in modelBuilder.Model.GetEntityTypes().SelectMany(x => x.GetProperties()
