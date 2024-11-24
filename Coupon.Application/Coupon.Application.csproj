@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Coupon.Core\Coupon.Core.csproj" />
+    <ProjectReference Include="..\Coupon.Infrastructure\Coupon.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
