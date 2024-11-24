@@ -2,18 +2,18 @@
 
 namespace Coupon.Core.Entities.Coupon
 {
-    public  class Coupon : EntityBase
+    public class Coupon : EntityBase
     {
         public CouponType TypeCoupon { get; init; }
-        public decimal Price { get; private set; } 
+        public decimal Price { get; private set; }
         public DateTime ValidAt { get; private set; }
         public bool IsExpired { get; private set; }
         public bool IsActive { get; private set; }
-        public DateTime EventDate { get; init; }    
+        public DateTime EventDate { get; init; }
         public int MaxCoupon { get; init; }
         public DateTime CreationDate { get; private set; }
         public virtual ICollection<Description>? Descriptions { get; init; }
-     
+        public virtual Photo? Photo { get; init; } = default!;
 
         public void Deactivate()
         {
@@ -30,7 +30,7 @@ namespace Coupon.Core.Entities.Coupon
             HasDescription();
 
             Price = price;
-          
+
         }
 
         public void UpdateValidate(DateTime validAt)
@@ -63,6 +63,20 @@ namespace Coupon.Core.Entities.Coupon
                     EventDate = eventDate,
                     MaxCoupon = max,
                     CreationDate = DateTime.UtcNow
+                };
+            }
+
+            public static Coupon CreateWithPhoto(CouponType typeCoupon, decimal price, DateTime validAt, DateTime eventDate, int max, Photo photo)
+            {
+                return new Coupon
+                {
+                    TypeCoupon = typeCoupon,
+                    Price = price,
+                    ValidAt = validAt,
+                    EventDate = eventDate,
+                    MaxCoupon = max,
+                    CreationDate = DateTime.UtcNow,
+                    Photo = photo
                 };
             }
         }

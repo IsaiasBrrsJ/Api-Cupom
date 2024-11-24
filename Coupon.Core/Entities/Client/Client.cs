@@ -14,7 +14,6 @@ namespace Coupon.Core.Entities.Client
         public virtual ICollection<Description>? Descriptions { get; init; }
       
 
-
         public void Deactivate()
         {
 
