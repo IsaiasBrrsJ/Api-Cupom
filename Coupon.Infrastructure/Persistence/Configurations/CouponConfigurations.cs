@@ -16,6 +16,11 @@ namespace Coupon.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Price)
                   .HasColumnType("decimal(10,2)");
 
+            builder
+                .HasOne(x => x.Photo)
+                .WithOne(x => x.Coupon)
+                .HasForeignKey<Photo>(x => x.CouponId);
+                
         }
     }
 }
