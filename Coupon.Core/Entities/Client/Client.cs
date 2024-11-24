@@ -1,4 +1,5 @@
-﻿using Coupon.Core.Entities.Reason;
+﻿using Coupon.Core.Entities.Coupon;
+using Coupon.Core.Entities.Reason;
 
 namespace Coupon.Core.Entities.Client
 {
@@ -10,8 +11,9 @@ namespace Coupon.Core.Entities.Client
         public ClientType ClientType { get; private set; }
         public bool IsActive { get; private set; }
         public DateTime CreateDate {  get; private set; }
-        public virtual Description Description { get; init; }
-        public Guid DescriptionId { get; init; }
+        public virtual ICollection<Description>? Descriptions { get; init; }
+      
+
 
         public void Deactivate()
         {
@@ -30,7 +32,7 @@ namespace Coupon.Core.Entities.Client
 
         private void HasDescription()
         {
-            if (Description == null)
+            if (Descriptions == null)
                 throw new InvalidOperationException("Informe a razao da modificação");
         }
         public static class Factories

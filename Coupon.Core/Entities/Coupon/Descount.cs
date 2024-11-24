@@ -7,12 +7,11 @@ namespace Coupon.Core.Entities.Coupon
     {
         public ClientType TipoDesconto { get; init; }
         public double PercentDescount { get; private set; }
-        public virtual Description Description { get; init; }
-        public Guid DescriptionId { get; init; }
+        public virtual ICollection<Description>? Descriptions { get; init; }
 
         private void HasDescription()
         {
-            if (Description == null)
+            if (Descriptions == null)
                 throw new InvalidOperationException("Informe a razao da modificação");
         }
 
