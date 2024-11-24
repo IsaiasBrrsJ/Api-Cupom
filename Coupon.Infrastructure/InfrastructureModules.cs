@@ -47,7 +47,6 @@ namespace Coupon.Infrastructure
         {
             service.AddScoped<IUnitOfWork, UnitOfWork>();
 
-
             return service;
         }
 

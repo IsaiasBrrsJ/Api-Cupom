@@ -6,8 +6,13 @@ namespace Coupon.Application.Services
     public class CouponService : ICouponService
     {
         private readonly ICouponRepositories _couponRepositories;
-     
-      
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CouponService(ICouponRepositories couponRepositories, IUnitOfWork unitOfWork)
+        {
+            _couponRepositories = couponRepositories;
+            _unitOfWork = unitOfWork;
+        }
 
         public Task DeactivateCoupon(Guid coupon)
         {
