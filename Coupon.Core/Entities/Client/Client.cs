@@ -44,7 +44,8 @@ namespace Coupon.Core.Entities.Client
                     Email = email,
                     PhoneNumber = phoneNumber,
                     ClientType = clientType,
-                    IsActive = true
+                    IsActive = true,
+                    CreateDate = DateTime.UtcNow
                 };
             }
         }

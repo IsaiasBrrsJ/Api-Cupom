@@ -1,4 +1,5 @@
-﻿using Coupon.Application.Services;
+﻿using Coupon.Application.Services.Command.Clients;
+using Coupon.Application.Services.Command.Coupons;
 using Coupon.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 

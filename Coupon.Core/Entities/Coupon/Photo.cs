@@ -6,8 +6,7 @@
         public DateTime AddedOn { get; init; }
         public string BlobUrl { get; init; } = default!;
         public string ContentType { get; init; } = default!;
-        public Coupon Coupon { get; init; } = default!;
-        public Guid? CouponId { get; init; }    
+        public Guid CouponId { get; init; }    
         
             
         public static class Factories
