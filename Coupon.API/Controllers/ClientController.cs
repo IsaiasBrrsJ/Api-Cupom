@@ -1,5 +1,5 @@
 ﻿using Coupon.Application.Abstractions;
-using Coupon.Application.Command;
+using Coupon.Application.ViewModel.Clients;
 using Coupon.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -21,14 +21,12 @@ namespace Coupon.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AddClient([FromBody] ClientInputModel clientModel)
         {
-            var client = clientModel
-                        .TOEntity();
+            var client = clientModel.TOEntity();
 
             var id = await _clientService.InsertClient(client);
 
             if (id is Guid guidId)
                 return RedirectToAction(nameof(GetUser), new { id });
-
 
 
             return BadRequest();

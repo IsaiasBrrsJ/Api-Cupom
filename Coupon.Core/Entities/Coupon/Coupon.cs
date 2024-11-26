@@ -15,6 +15,8 @@ namespace Coupon.Core.Entities.Coupon
         public virtual ICollection<Description>? Descriptions { get; init; }
         public virtual Photo? Photo { get; init; } = default!;
 
+        public Guid? PhotoId { get; private set; }
+
         public void Deactivate()
         {
             HasDescription();
