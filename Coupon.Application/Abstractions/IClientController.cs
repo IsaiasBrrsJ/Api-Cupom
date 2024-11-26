@@ -1,4 +1,4 @@
-﻿using Coupon.Application.Command;
+﻿using Coupon.Application.ViewModel.Clients;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
