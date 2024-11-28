@@ -1,5 +1,4 @@
-﻿using Coupon.Core.Entities.Coupon;
-using Coupon.Core.Entities.Reason;
+﻿using Coupon.Core.Entities.Reason;
 
 namespace Coupon.Core.Entities.Client
 {
@@ -12,23 +11,23 @@ namespace Coupon.Core.Entities.Client
         public bool IsActive { get; private set; }
         public DateTime CreateDate {  get; private set; }
         public virtual ICollection<Description>? Descriptions { get; init; }
-      
 
+        //EF
+        protected Client()
+        {
+        }
         public void Deactivate()
         {
-
             HasDescription();
 
             IsActive = !IsActive;
         }
-
         public void AlterTypeClient(ClientType clientType)
         {
             HasDescription();
 
             ClientType = clientType;
         }
-
         private void HasDescription()
         {
             if (Descriptions == null)
@@ -48,7 +47,7 @@ namespace Coupon.Core.Entities.Client
                     CreateDate = DateTime.UtcNow
                 };
             }
+          
         }
-
     }
 }

@@ -13,6 +13,11 @@ namespace Coupon.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Id)
                 .ValueGeneratedNever();
 
+
+            builder
+                 .HasOne(x => x.Coupon)
+                 .WithOne(x => x.Photo)
+                 .HasForeignKey<Photo>(x => x.CouponId);
           
         }
     }

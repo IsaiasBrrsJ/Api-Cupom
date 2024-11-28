@@ -22,7 +22,7 @@ namespace Coupon.Infrastructure.Services
         public async Task<(string blobUrl, string fileName)> UploadPhoto(IFormFile file, Guid userId)
         {
             var connString = _configuration["BlobConnection:Blob"];
-            var containerName = _configuration["BlobConnection:BlobPNG"];
+            var containerName = _configuration["BlobConnection:PNG"];
 
             var blobServiceClient = new BlobServiceClient(connString);
             var containerClient = blobServiceClient.GetBlobContainerClient(containerName);

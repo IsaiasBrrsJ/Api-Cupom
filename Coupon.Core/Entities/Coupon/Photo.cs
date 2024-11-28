@@ -6,6 +6,7 @@
         public DateTime AddedOn { get; init; }
         public string BlobUrl { get; init; } = default!;
         public string ContentType { get; init; } = default!;
+        public virtual Coupon Coupon { get; init; }
         public Guid CouponId { get; init; }    
         
             

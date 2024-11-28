@@ -11,12 +11,14 @@ namespace Coupon.Application.Services.Command.Coupons
         private readonly ICouponRepositories _couponRepositories;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBlobStorageService _blobStorageService;
+        private readonly IPhotoRepositories _photoRepositories;
 
-        public CouponService(ICouponRepositories couponRepositories, IUnitOfWork unitOfWork, IBlobStorageService blobStorageService)
+        public CouponService(ICouponRepositories couponRepositories, IUnitOfWork unitOfWork, IBlobStorageService blobStorageService, IPhotoRepositories photoRepositories)
         {
             _couponRepositories = couponRepositories;
             _unitOfWork = unitOfWork;
             _blobStorageService = blobStorageService;
+            _photoRepositories = photoRepositories;
         }
 
         public Task DeactivateCoupon(Guid coupon)
@@ -34,37 +36,33 @@ namespace Coupon.Application.Services.Command.Coupons
             throw new NotImplementedException();
         }
 
-        public async Task<Guid> InsertCoupon(Core.Entities.Coupon.Coupon coupon, IFormFile photo)
+        public  async Task<Guid> InsertCoupon(Core.Entities.Coupon.Coupon coupon, IFormFile? photo)
         {
-            var (blobUrl, fileName) = (string.Empty, string.Empty);
+            Guid userId = default!;
 
-            Core.Entities.Coupon.Coupon cuponEntity = null!;
-
-            if (photo != null)
+           if(photo is not null)
             {
-                (blobUrl, fileName) = await SendImageToBlobStorage(photo, coupon.Id);
+                var infoBlob = await _blobStorageService.UploadPhoto(photo!, coupon.Id);
+                var photoSend = Photo.Factories.Create(infoBlob.fileName, infoBlob.blobUrl, photo!.ContentType, coupon.Id);
 
-                cuponEntity = Core.Entities.Coupon.Coupon.Factories.CreateWithPhoto(coupon.TypeCoupon, coupon.Price, coupon.ValidAt, coupon.EventDate, coupon.MaxCoupon,
-                    Photo.Factories.Create(fileName, blobUrl, photo!.ContentType, coupon.Id)
-                    );
-            
-                var userId = await _couponRepositories.AddAsync(cuponEntity);
+                userId = await _couponRepositories.AddAsync(coupon);
+                await _photoRepositories.AddAsync(photoSend);
+
+                await _unitOfWork.Commit();
 
                 return userId;
             }
 
+             userId = await _couponRepositories.AddAsync(coupon);
 
-            var id = await _couponRepositories.AddAsync(coupon);
+           await _unitOfWork.Commit();
 
-            return id;
-
+            return userId;
         }
 
-        internal async Task<(string blobUrl, string fileName)> SendImageToBlobStorage(IFormFile photo, Guid idCoupon)
+        public async Task<(string blobUrl, string fileName)> SendImageToBlobStorage(IFormFile photo, Guid idCoupon)
         {
-            var blobInfo = await _blobStorageService.UploadPhoto(photo, idCoupon);
-
-            return (blobInfo.blobUrl, blobInfo.fileName);
+            throw new NotImplementedException();
         }
 
         public async Task UpdateCoupon(Core.Entities.Coupon.Coupon coupon)

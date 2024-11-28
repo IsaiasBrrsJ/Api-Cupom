@@ -1,6 +1,5 @@
 ﻿using Coupon.Application.Abstractions;
-using Coupon.Application.ViewModel.Coupons;
-using Coupon.Core.Repositories;
+using Coupon.Application.InputModel.Coupons;
 using Coupon.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,16 +16,15 @@ namespace Coupon.API.Controllers
         }
 
         [HttpPost("Adcionar-Cupom")]
-        public async Task<IActionResult> AddCoupon([FromBody] CouponInputModels model, IFormFile? file)
+        public async Task<IActionResult> AddCoupon( CouponInputModels model)
         {
             var userToEntity = model.ToEntity();
 
-           var guidUser = await _couponService.InsertCoupon(userToEntity);
+           var guidUser = await _couponService.InsertCoupon(userToEntity, model.File);
+
         
-            
-             
-
-
+            return Ok();
         }
+        
     }
 }
