@@ -1,4 +1,5 @@
 ﻿using Coupon.Core.Entities.Reason;
+using Microsoft.AspNetCore.Http;
 
 namespace Coupon.Core.Entities.Coupon
 {
@@ -13,8 +14,7 @@ namespace Coupon.Core.Entities.Coupon
         public int MaxCoupon { get; init; }
         public DateTime CreationDate { get; private set; }
         public virtual ICollection<Description>? Descriptions { get; init; }
-        public virtual Photo? Photo { get; init; } = default!;
-
+        public virtual Photo? Photo { get; private set; } = default!;
         public Guid? PhotoId { get; private set; }
 
         public void Deactivate()
@@ -22,6 +22,11 @@ namespace Coupon.Core.Entities.Coupon
             HasDescription();
 
             IsActive = !IsActive;
+        }
+
+        public void UpdatePhoto(Photo photo)
+        {
+            Photo = photo;
         }
         public void UpdatePrice(decimal price)
         {
@@ -68,19 +73,6 @@ namespace Coupon.Core.Entities.Coupon
                 };
             }
 
-            public static Coupon CreateWithPhoto(CouponType typeCoupon, decimal price, DateTime validAt, DateTime eventDate, int max, Photo photo)
-            {
-                return new Coupon
-                {
-                    TypeCoupon = typeCoupon,
-                    Price = price,
-                    ValidAt = validAt,
-                    EventDate = eventDate,
-                    MaxCoupon = max,
-                    CreationDate = DateTime.UtcNow,
-                    Photo = photo
-                };
-            }
         }
 
     }

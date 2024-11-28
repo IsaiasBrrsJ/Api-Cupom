@@ -19,7 +19,7 @@ namespace Coupon.Infrastructure.Persistence.Configurations
 
             builder
             .HasOne(x => x.Photo)
-            .WithOne()
+            .WithOne(x => x.Coupon)
             .HasForeignKey<Photo>(x => x.CouponId);
         }
     }

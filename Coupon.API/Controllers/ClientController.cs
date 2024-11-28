@@ -1,5 +1,5 @@
 ﻿using Coupon.Application.Abstractions;
-using Coupon.Application.ViewModel.Clients;
+using Coupon.Application.InputModel.Clients;
 using Coupon.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -27,7 +27,6 @@ namespace Coupon.API.Controllers
 
             if (id is Guid guidId)
                 return RedirectToAction(nameof(GetUser), new { id });
-
 
             return BadRequest();
         }

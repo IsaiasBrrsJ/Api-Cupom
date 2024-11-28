@@ -1,7 +1,6 @@
 ﻿using Coupon.Core.Entities.Client;
-using Coupon.Core.Entities.Coupon;
 
-namespace Coupon.Application.ViewModel.Clients
+namespace Coupon.Application.InputModel.Clients
 {
     public class ClientInputModel
     {
@@ -10,7 +9,6 @@ namespace Coupon.Application.ViewModel.Clients
         public int Age { get; private set; }
         public string Email { get; set; } = default!;
         public string PhoneNumber { get; set; } = string.Empty;
-
         public ClientType ClientType { get; set; }
 
         public Client TOEntity()

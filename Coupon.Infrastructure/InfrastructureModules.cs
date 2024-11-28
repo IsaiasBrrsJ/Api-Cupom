@@ -1,6 +1,8 @@
 ﻿using Coupon.Core.Repositories;
+using Coupon.Core.Services;
 using Coupon.Infrastructure.Persistence;
 using Coupon.Infrastructure.Persistence.Repositories;
+using Coupon.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,11 +36,13 @@ namespace Coupon.Infrastructure
 
         private static IServiceCollection AddRepositories(this IServiceCollection service)
         {
-            
+
 
             service
                 .AddTransient<IClientRepositories, ClientRepositories>()
-                .AddTransient<ICouponRepositories, CouponRepositories>();
+                .AddTransient<ICouponRepositories, CouponRepositories>()
+                .AddTransient<IBlobStorageService, BlobStorageService>()
+                .AddTransient<IPhotoRepositories, PhotoRepositories>();
                 
             return service;
         }
