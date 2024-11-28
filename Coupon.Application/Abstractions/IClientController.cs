@@ -1,5 +1,4 @@
-﻿using Coupon.Application.ViewModel.Clients;
-using Microsoft.AspNetCore.Http;
+﻿using Coupon.Application.InputModel.Clients;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coupon.Application.Abstractions

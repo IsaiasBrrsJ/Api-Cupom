@@ -2,3 +2,5 @@ appsettings.json
 .vs/
 obj/
 Coupon.Infrastructure/Persistence/Migrations/
+_blobstorage_/
+azurite_workspace

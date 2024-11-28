@@ -22,6 +22,7 @@ namespace Coupon.Application
             services
                 .AddScoped<IClientService, ClienteService>()
                 .AddScoped<ICouponService, CouponService>();
+                
 
             return services;
         }
