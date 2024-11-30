@@ -1,4 +1,5 @@
 ﻿using Coupon.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Coupon.Infrastructure.Persistence.Repositories
 {
@@ -28,9 +29,9 @@ namespace Coupon.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Core.Entities.Coupon.Coupon>> GetByIdAsync(Guid id)
+        public async Task<Core.Entities.Coupon.Coupon> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Coupon.SingleOrDefaultAsync(x => x.Id == id) ?? null!;
         }
 
         public Task UpdateAsync(Core.Entities.Coupon.Coupon client)

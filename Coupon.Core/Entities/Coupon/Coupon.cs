@@ -1,5 +1,6 @@
-﻿using Coupon.Core.Entities.Reason;
-using Microsoft.AspNetCore.Http;
+﻿using Coupon.Core.Entities.Client;
+using Coupon.Core.Event;
+using Coupon.Core.Externsion;
 
 namespace Coupon.Core.Entities.Coupon
 {
@@ -13,15 +14,20 @@ namespace Coupon.Core.Entities.Coupon
         public DateTime EventDate { get; init; }
         public int MaxCoupon { get; init; }
         public DateTime CreationDate { get; private set; }
-        public virtual ICollection<Description>? Descriptions { get; init; }
         public virtual Photo? Photo { get; private set; } = default!;
         public Guid? PhotoId { get; private set; }
-
-        public void Deactivate()
+        private static IList<Events<Coupon>> @event = new List<Events<Coupon>>(); 
+        public IReadOnlyCollection<Events<Coupon>> @eventsRead = @event.AsReadOnly(); 
+        
+        public void Deactivate(string reason, string @operator)
         {
-            HasDescription();
+            string checkInput = String.Empty;
 
+            if (checkInput.IsNullOrEmptyValues(reason, @operator))
+                throw new InvalidOperationException("Input model invalid");
+            
             IsActive = !IsActive;
+            @event.Add(Events<Coupon>.Factories.Create(Id, @operator, reason, nameof(Coupon)));
         }
 
         public void UpdatePhoto(Photo photo)
@@ -34,7 +40,6 @@ namespace Coupon.Core.Entities.Coupon
             if (!IsActive)
                 throw new InvalidOperationException("Cupom já desativado");
 
-            HasDescription();
 
             Price = price;
 
@@ -42,22 +47,17 @@ namespace Coupon.Core.Entities.Coupon
 
         public void UpdateValidate(DateTime validAt)
         {
-            HasDescription();
 
             ValidAt = validAt;
         }
         public void SetExpired()
         {
-            HasDescription();
+           
 
             IsExpired = !IsExpired;
         }
 
-        private void HasDescription()
-        {
-            if (Descriptions == null)
-                throw new InvalidOperationException("Informe a razao da modificação");
-        }
+      
         public static class Factories
         {
             public static Coupon Create(CouponType typeCoupon, decimal price, DateTime validAt, DateTime eventDate, int max)
@@ -69,7 +69,9 @@ namespace Coupon.Core.Entities.Coupon
                     ValidAt = validAt,
                     EventDate = eventDate,
                     MaxCoupon = max,
-                    CreationDate = DateTime.UtcNow
+                    CreationDate = DateTime.UtcNow,
+                    IsActive = true,
+                    IsExpired = false
                 };
             }
 

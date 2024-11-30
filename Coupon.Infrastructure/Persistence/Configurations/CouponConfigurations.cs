@@ -26,6 +26,7 @@ namespace Coupon.Infrastructure.Persistence.Configurations
             .HasOne(x => x.Photo)
             .WithOne(x => x.Coupon)
             .HasForeignKey<Photo>(x => x.CouponId);
+
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Coupon.Infrastructure.Persistence.Configurations
             builder.Property(x => x.Id)
                 .ValueGeneratedNever();
 
+          
         }
     }
 }
