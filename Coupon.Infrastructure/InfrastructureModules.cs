@@ -1,4 +1,6 @@
-﻿using Coupon.Core.Repositories;
+﻿using Coupon.Core.Entities;
+using Coupon.Core.Event;
+using Coupon.Core.Repositories;
 using Coupon.Core.Services;
 using Coupon.Infrastructure.Persistence;
 using Coupon.Infrastructure.Persistence.Repositories;
@@ -42,8 +44,9 @@ namespace Coupon.Infrastructure
                 .AddTransient<IClientRepositories, ClientRepositories>()
                 .AddTransient<ICouponRepositories, CouponRepositories>()
                 .AddTransient<IBlobStorageService, BlobStorageService>()
-                .AddTransient<IPhotoRepositories, PhotoRepositories>();
-                
+                .AddTransient<IPhotoRepositories, PhotoRepositories>()
+                .AddTransient(typeof(IEventRepositories<>), typeof(EventRepositories<>));
+
             return service;
         }
 

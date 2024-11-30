@@ -1,5 +1,5 @@
 ﻿using Coupon.Core.Entities.Client;
-using Coupon.Core.Entities.Reason;
+using Coupon.Core.Event;
 
 namespace Coupon.Core.Entities.Coupon
 {
@@ -7,20 +7,14 @@ namespace Coupon.Core.Entities.Coupon
     {
         public ClientType TipoDesconto { get; init; }
         public double PercentDescount { get; private set; }
-        public virtual ICollection<Description>? Descriptions { get; init; }
 
-        private void HasDescription()
-        {
-            if (Descriptions == null)
-                throw new InvalidOperationException("Informe a razao da modificação");
-        }
 
         public void UpdateDescount(double percentDescount)
         {
             if (percentDescount < 0 || percentDescount > 0.15)
                 throw new InvalidOperationException("Valor desconto inválido");
 
-            HasDescription();
+       
 
             percentDescount = PercentDescount;
         }

@@ -1,4 +1,5 @@
 ﻿using Coupon.Core.Entities.Client;
+using Coupon.Core.Event;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,8 +17,8 @@ namespace Coupon.Infrastructure.Persistence.Configurations
 
             builder.Property(x => x.ClientType)
                 .HasConversion<string>();
-              
-       
+
+           
         }
     }
 }

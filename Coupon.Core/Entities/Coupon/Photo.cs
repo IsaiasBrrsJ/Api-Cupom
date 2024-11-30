@@ -1,4 +1,6 @@
-﻿namespace Coupon.Core.Entities.Coupon
+﻿using Coupon.Core.Event;
+
+namespace Coupon.Core.Entities.Coupon
 {
     public class Photo : EntityBase
     {
@@ -6,10 +8,9 @@
         public DateTime AddedOn { get; init; }
         public string BlobUrl { get; init; } = default!;
         public string ContentType { get; init; } = default!;
-        public virtual Coupon Coupon { get; init; }
-        public Guid CouponId { get; init; }    
-        
-            
+        public virtual Coupon Coupon { get; init; } = default!;
+        public Guid CouponId { get; init; }
+
         public static class Factories
         {
             public static Photo Create(string fileName,string blolUrl, string contetType ,Guid IdCoupon)

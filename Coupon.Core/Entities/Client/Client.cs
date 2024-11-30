@@ -1,4 +1,5 @@
-﻿using Coupon.Core.Entities.Reason;
+﻿
+using Coupon.Core.Event;
 
 namespace Coupon.Core.Entities.Client
 {
@@ -10,29 +11,23 @@ namespace Coupon.Core.Entities.Client
         public ClientType ClientType { get; private set; }
         public bool IsActive { get; private set; }
         public DateTime CreateDate {  get; private set; }
-        public virtual ICollection<Description>? Descriptions { get; init; }
-
+       
         //EF
-        protected Client()
+        private Client()
         {
         }
         public void Deactivate()
         {
-            HasDescription();
+         
 
             IsActive = !IsActive;
         }
         public void AlterTypeClient(ClientType clientType)
         {
-            HasDescription();
 
             ClientType = clientType;
         }
-        private void HasDescription()
-        {
-            if (Descriptions == null)
-                throw new InvalidOperationException("Informe a razao da modificação");
-        }
+       
         public static class Factories
         {
             public static Client Create(string name, string email, string phoneNumber, ClientType clientType)
