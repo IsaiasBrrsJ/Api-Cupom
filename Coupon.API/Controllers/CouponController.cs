@@ -1,4 +1,5 @@
 ﻿using Coupon.Application.Abstractions;
+using Coupon.Application.Extension;
 using Coupon.Application.InputModel.Coupons;
 using Coupon.Core.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,16 @@ namespace Coupon.API.Controllers
         
             return Ok(result);
         }
-        
+
+        [HttpPatch("Coupoun/{id}/Deactivate")]
+        public async Task<IActionResult> Deactivate([FromRoute] Guid id, [FromBody] DeactivateInputModel model)
+        {
+            if (!id.IsGuid())
+                return BadRequest("Informe o Id ");
+
+            await _couponService.DeactivateCoupon(id, model.reason, model.@operator);
+          
+            return Accepted();
+        }
     }
 }

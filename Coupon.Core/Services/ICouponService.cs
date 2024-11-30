@@ -7,9 +7,9 @@ namespace Coupon.Core.Services
     {
         Task<ResultViewModel> InsertCoupon(Entities.Coupon.Coupon coupon, IFormFile? photo);
         Task UpdateCoupon(Entities.Coupon.Coupon coupon);
-        Task DeactivateCoupon(Guid coupon);
+        Task DeactivateCoupon(Guid coupon, string reason, string @operator);
         Task<IEnumerable<Entities.Coupon.Coupon>> GetAllClients();
-        Task<IEnumerable<Entities.Coupon.Coupon>> GetClientById(Guid id);
-         Task<(string blobUrl, string fileName)> SendImageToBlobStorage(IFormFile photo, Guid idCoupon); 
+        Task<Entities.Coupon.Coupon> GetClientById(Guid id);
+        Task<(string blobUrl, string fileName)> SendImageToBlobStorage(IFormFile photo, Guid idCoupon);
     }
 }
