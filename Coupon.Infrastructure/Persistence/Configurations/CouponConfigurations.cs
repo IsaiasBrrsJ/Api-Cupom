@@ -17,6 +17,11 @@ namespace Coupon.Infrastructure.Persistence.Configurations
                   .HasColumnType("decimal(10,2)");
 
 
+            builder.Property(x => x.TypeCoupon)
+                .HasConversion<string>()
+                .HasMaxLength(100);
+
+
             builder
             .HasOne(x => x.Photo)
             .WithOne(x => x.Coupon)

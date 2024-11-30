@@ -1,4 +1,6 @@
-﻿using Coupon.Core.Entities.Client;
+﻿using Coupon.Application.ViewModel.Coupon;
+using Coupon.Core.BaseResult;
+using Coupon.Core.Entities.Client;
 using Coupon.Core.Entities.Coupon;
 using Coupon.Core.Repositories;
 using Coupon.Core.Services;
@@ -36,7 +38,7 @@ namespace Coupon.Application.Services.Command.Coupons
             throw new NotImplementedException();
         }
 
-        public  async Task<Guid> InsertCoupon(Core.Entities.Coupon.Coupon coupon, IFormFile? photo)
+        public  async Task<ResultViewModel> InsertCoupon(Core.Entities.Coupon.Coupon coupon, IFormFile? photo)
         {
             Guid userId = default!;
 
@@ -50,14 +52,18 @@ namespace Coupon.Application.Services.Command.Coupons
 
                 await _unitOfWork.Commit();
 
-                return userId;
+                var resultModels = CouponViewModel.Factories.CreateWithPhoto(infoBlob.blobUrl, coupon.EventDate, Enum.GetName(typeof(CouponType), coupon.TypeCoupon)!, userId);
+
+                return ResultViewModel<CouponViewModel>.Success(resultModels, "Coupon and Photo Inserted With Success");
             }
 
              userId = await _couponRepositories.AddAsync(coupon);
 
-           await _unitOfWork.Commit();
+            await _unitOfWork.Commit();
 
-            return userId;
+            var resultModel = CouponViewModel.Factories.Create(coupon.EventDate, Enum.GetName(typeof(CouponType), coupon.TypeCoupon)!, userId);
+
+            return ResultViewModel<CouponViewModel>.Success(resultModel, "Cupom com sucesso");
         }
 
         public async Task<(string blobUrl, string fileName)> SendImageToBlobStorage(IFormFile photo, Guid idCoupon)
