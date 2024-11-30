@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Coupon.Core.BaseResult;
+using Microsoft.AspNetCore.Http;
 
 namespace Coupon.Core.Services
 {
     public interface ICouponService
     {
-        Task<Guid> InsertCoupon(Entities.Coupon.Coupon coupon, IFormFile? photo);
+        Task<ResultViewModel> InsertCoupon(Entities.Coupon.Coupon coupon, IFormFile? photo);
         Task UpdateCoupon(Entities.Coupon.Coupon coupon);
         Task DeactivateCoupon(Guid coupon);
         Task<IEnumerable<Entities.Coupon.Coupon>> GetAllClients();
