@@ -16,14 +16,14 @@ namespace Coupon.API.Controllers
         }
 
         [HttpPost("Adcionar-Cupom")]
-        public async Task<IActionResult> AddCoupon( CouponInputModels model)
+        public async Task<IActionResult> AddCoupon([FromForm] CouponInputModels model)
         {
             var userToEntity = model.ToEntity();
 
-           var guidUser = await _couponService.InsertCoupon(userToEntity, model.File);
+           var result = await _couponService.InsertCoupon(userToEntity, model.File);
 
         
-            return Ok();
+            return Ok(result);
         }
         
     }
