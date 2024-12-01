@@ -1,11 +1,12 @@
 ﻿using Coupon.Core.Event;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Logging;
 using System.Reflection.Emit;
 
 namespace Coupon.Infrastructure.Persistence.Configurations
 {
-    public class EventBaseConfigurations : IEntityTypeConfiguration<EventBase>
+    public class EventBaseConfigurations: IEntityTypeConfiguration<EventBase>
     {
         public void Configure(EntityTypeBuilder<EventBase> builder)
         {
@@ -29,6 +30,9 @@ namespace Coupon.Infrastructure.Persistence.Configurations
             builder
            .HasIndex(e => e.EventType)
            .HasDatabaseName("IX_EventType");
+
+            builder
+                .HasDiscriminator(x => x.EventType);
         }
 
     }

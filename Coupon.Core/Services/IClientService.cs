@@ -6,8 +6,8 @@ namespace Coupon.Core.Services
     {
         Task<Guid> InsertClient(Client client);
         Task UpdateClient(Client client);
-        Task DeactivateClient(Client client);
+        Task DeactivateClient(Guid id, string reason, string @operator);
         Task<IEnumerable<Client>> GetAllClients();
-        Task<IEnumerable<Client>> GetClientById(Guid id);
+        Task<Client> GetClientById(Guid id);
     }
 }

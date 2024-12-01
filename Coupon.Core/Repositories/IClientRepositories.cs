@@ -6,7 +6,7 @@ namespace Coupon.Core.Repositories
     {
         Task<Guid> AddAsync(Client client);
         Task<IEnumerable<Client>> GetAllAsync();
-        Task<IEnumerable<Client>> GetByIdAsync(Guid id);
+        Task<Client> GetByIdAsync(Guid id);
         Task UpdateAsync(Client client);
         Task DeleteLogicalAsync(Guid id);
     }

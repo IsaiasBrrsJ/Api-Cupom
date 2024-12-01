@@ -1,4 +1,5 @@
-﻿using Coupon.Core.Entities.Client;
+﻿using Coupon.Application.Extension;
+using Coupon.Core.Entities.Client;
 using Coupon.Core.Repositories;
 using Coupon.Core.Services;
 
@@ -8,17 +9,29 @@ namespace Coupon.Application.Services.Command.Clients
     {
         private readonly IClientRepositories _clientRepositories;
         private readonly IUnitOfWork _unitOfWork;
-
-        public ClienteService(IClientRepositories clientRepositories, IUnitOfWork unitOfWork)
+        private readonly IEventRepositories<Client> _clientEvent;
+        public ClienteService(IClientRepositories clientRepositories, IUnitOfWork unitOfWork, IEventRepositories<Client> clientEvent)
         {
             _clientRepositories = clientRepositories;
             _unitOfWork = unitOfWork;
+            _clientEvent = clientEvent;
         }
 
-        public async Task DeactivateClient(Client client)
+        public async Task DeactivateClient(Guid id, string reason, string @operator)
         {
+            if (!id.IsGuid())
+                throw new InvalidOperationException("Id Incorrect");
 
-            await _clientRepositories.AddAsync(client);
+
+            var client = await GetClientById(id);
+
+            if (!client.Id.IsGuid() || client is null)
+                await Task.CompletedTask;
+
+
+            client!.Deactivate(reason, @operator);
+
+            await _clientEvent.AddAsync(client!.eventRead);
 
             await _unitOfWork.Commit();
         }
@@ -28,9 +41,11 @@ namespace Coupon.Application.Services.Command.Clients
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Client>> GetClientById(Guid id)
+        public async Task<Client> GetClientById(Guid id)
         {
-            throw new NotImplementedException();
+           var cliente = await _clientRepositories.GetByIdAsync(id);
+
+            return cliente;
         }
 
         public async Task<Guid> InsertClient(Client client)
