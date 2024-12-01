@@ -28,7 +28,7 @@ namespace Coupon.API.Controllers
         }
 
         [HttpPatch("Coupoun/{id}/Deactivate")]
-        public async Task<IActionResult> Deactivate([FromRoute] Guid id, [FromBody] DeactivateInputModel model)
+        public async Task<IActionResult> Deactivate([FromRoute] Guid id, [FromBody] DeactivateInputModelCoupon model)
         {
             if (!id.IsGuid())
                 return BadRequest("Informe o Id ");

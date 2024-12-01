@@ -11,16 +11,20 @@ namespace Coupon.Core.Entities.Client
         public ClientType ClientType { get; private set; }
         public bool IsActive { get; private set; }
         public DateTime CreateDate {  get; private set; }
-       
+    
+        private static IList<Events<Client>> @events = new List<Events<Client>>();
+    
+        public IReadOnlyCollection<Events<Client>> @eventRead = @events.AsReadOnly();
         //EF
         private Client()
         {
         }
-        public void Deactivate()
+        public void Deactivate(string reason, string @operator)
         {
          
-
             IsActive = !IsActive;
+
+            events.Add(Events<Client>.Factories.Create(Id, @operator, reason, nameof(Client)));
         }
         public void AlterTypeClient(ClientType clientType)
         {
