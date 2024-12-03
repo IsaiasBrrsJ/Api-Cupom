@@ -11,6 +11,7 @@ namespace Coupon.Application.InputModel.Clients
         public string PhoneNumber { get; set; } = string.Empty;
         public ClientType ClientType { get; set; }
 
+
         public Client TOEntity()
         {
             return Client

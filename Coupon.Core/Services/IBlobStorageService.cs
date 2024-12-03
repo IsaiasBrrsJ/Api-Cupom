@@ -7,5 +7,7 @@ namespace Coupon.Core.Services
         Task<(string blobUrl, string fileName)> UploadPhoto(IFormFile file, Guid userId);
 
         Task<IFormFile> DownloadPhoto(Guid userId);
+
+        Task<bool> DeletePhoto(Guid userId);
     }
 }

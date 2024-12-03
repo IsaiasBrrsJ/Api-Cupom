@@ -7,7 +7,7 @@ using System.Net;
 
 namespace Coupon.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class ClientController : ControllerBase, IClientController<ClientController>
     {
