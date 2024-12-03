@@ -1,4 +1,5 @@
 ﻿using Coupon.Application.Abstractions;
+using Coupon.Application.Extension;
 using Coupon.Application.InputModel.Clients;
 using Coupon.Core.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using System.Net;
 
 namespace Coupon.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class ClientController : ControllerBase, IClientController<ClientController>
     {
@@ -25,10 +26,26 @@ namespace Coupon.API.Controllers
 
             var id = await _clientService.InsertClient(client);
 
-            if (id is Guid guidId)
-                return RedirectToAction(nameof(GetUser), new { id });
+            if (!id.IsGuid())
+              return BadRequest();
+            
+            
+            return RedirectToAction(nameof(GetUser), new { id });
 
-            return BadRequest();
+        }
+
+        [HttpPatch("Client/{Id}/Deactivate")]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Deactivate([FromRoute] Guid Id, [FromBody] DeactivateInputModelClient model)
+        {
+
+            if (!Id.IsGuid())
+                return BadRequest("Informe o id");
+
+            await _clientService.DeactivateClient(Id, model.reason, model.@operator);
+
+            return Accepted();
         }
 
         [HttpGet("Client/{id}/Find-User")]

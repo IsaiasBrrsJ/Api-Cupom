@@ -1,4 +1,5 @@
 ﻿using Coupon.Core.BaseResult;
+using Coupon.Core.Entities.Coupon;
 using Microsoft.AspNetCore.Http;
 
 namespace Coupon.Core.Services

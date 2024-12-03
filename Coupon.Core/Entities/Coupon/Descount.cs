@@ -1,5 +1,4 @@
 ﻿using Coupon.Core.Entities.Client;
-using Coupon.Core.Event;
 
 namespace Coupon.Core.Entities.Coupon
 {
@@ -14,7 +13,7 @@ namespace Coupon.Core.Entities.Coupon
             if (percentDescount < 0 || percentDescount > 0.15)
                 throw new InvalidOperationException("Valor desconto inválido");
 
-       
+            
 
             percentDescount = PercentDescount;
         }

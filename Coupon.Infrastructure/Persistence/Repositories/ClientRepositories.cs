@@ -1,5 +1,6 @@
 ﻿using Coupon.Core.Entities.Client;
 using Coupon.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Coupon.Infrastructure.Persistence.Repositories
 {
@@ -22,9 +23,15 @@ namespace Coupon.Infrastructure.Persistence.Repositories
             return client.Id;
         }
 
-        public Task DeleteLogicalAsync(Guid id)
+        public async Task DeleteLogicalAsync(Guid id)
         {
-            throw new NotImplementedException();
+            string sql = @"UPDATE FROM dbo.Clients
+                        SET IsActive = 0
+                        WHERE Id = @Id";
+
+            _dbContext.Clients.FromSqlRaw(sql, id);
+
+           await Task.CompletedTask;
         }
 
         public Task<IEnumerable<Client>> GetAllAsync()
@@ -32,9 +39,9 @@ namespace Coupon.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Client>> GetByIdAsync(Guid id)
+        public async Task<Client> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Clients.SingleOrDefaultAsync(x => x.Id == id) ?? null!;
         }
 
         public Task UpdateAsync(Client client)
