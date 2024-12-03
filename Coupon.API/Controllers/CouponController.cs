@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Coupon.API.Controllers
 {
     [ApiController]
-    [Route("API/[controller]")]
+    [Route("API/")]
     public class CouponController : ControllerBase, ICouponController<CouponController>
     {
         private readonly ICouponService _couponService;
@@ -17,13 +17,19 @@ namespace Coupon.API.Controllers
         }
 
         [HttpPost("Adcionar-Cupom")]
+        [ProducesResponseType(typeof(CouponInputModels), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> AddCoupon([FromForm] CouponInputModels model)
         {
             var userToEntity = model.ToEntity();
 
            var result = await _couponService.InsertCoupon(userToEntity, model.File);
 
-        
+
+            if(!result.IsSuccess)
+                return UnprocessableEntity(result);
+
+
             return Ok(result);
         }
 

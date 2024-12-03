@@ -1,32 +1,53 @@
 ﻿using Coupon.Core.Repositories;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Coupon.Infrastructure.Persistence.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly CouponContextDb _dbContext;
+        private IDbContextTransaction _dbContextTransaction = default!;
+
         public UnitOfWork(CouponContextDb dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<bool> Commit()
+        internal async Task BeginTransaction()
         {
-            int umaOuMaisLinhasAfetadas = 0;
-
-            return await 
-                _dbContext
-                .SaveChangesAsync() > umaOuMaisLinhasAfetadas;
+            _dbContextTransaction = await _dbContext.Database.BeginTransactionAsync();
         }
 
-        public Task Rollback()
+        public async Task<bool> Commit()
         {
-            throw new NotImplementedException();
+            bool result = false;
+            try
+            {
+                await BeginTransaction();
+                 result = await CompleteTask();
+
+                _dbContextTransaction.Commit();
+
+                return result;
+            }
+            catch(SqlException ex)
+            {
+                await Rollback();
+                throw ex;
+                return result;
+            }
+
+        }
+
+        public async Task Rollback()
+        {
+             await _dbContextTransaction.RollbackAsync();
+        }
+
+        internal async Task<bool> CompleteTask()
+        {
+            return await _dbContext.SaveChangesAsync() > 0;
         }
     }
 }

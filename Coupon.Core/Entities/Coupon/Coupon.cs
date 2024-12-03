@@ -27,9 +27,13 @@ namespace Coupon.Core.Entities.Coupon
                 throw new InvalidOperationException("Input model invalid");
             
             IsActive = !IsActive;
-            @event.Add(Events<Coupon>.Factories.Create(Id, @operator, reason, nameof(Coupon)));
+            InsertEvent(@operator, reason);
         }
 
+        public void InsertEvent(string @operator, string reason)
+        {
+            @event.Add(Events<Coupon>.Factories.Create(Id, @operator, reason, nameof(Coupon)));
+        }
         public void UpdatePhoto(Photo photo)
         {
             Photo = photo;
@@ -73,6 +77,7 @@ namespace Coupon.Core.Entities.Coupon
                     IsActive = true,
                     IsExpired = false
                 };
+              
             }
 
         }

@@ -12,7 +12,6 @@ namespace Coupon.Application.InputModel.Coupons
         public int MaxCoupon { get; init; }
         public CouponType CouponType { get; set; } = default!;
         public IFormFile? File { get; set; }
-
         public Core.Entities.Coupon.Coupon ToEntity()
         {
             return Core
