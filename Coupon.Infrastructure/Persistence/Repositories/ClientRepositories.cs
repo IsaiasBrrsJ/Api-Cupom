@@ -34,9 +34,9 @@ namespace Coupon.Infrastructure.Persistence.Repositories
            await Task.CompletedTask;
         }
 
-        public Task<IEnumerable<Client>> GetAllAsync()
+        public async Task<IEnumerable<Client>> GetAllAsync()
         {
-            throw new NotImplementedException();
+           return await _dbContext.Clients.ToListAsync();
         }
 
         public async Task<Client> GetByIdAsync(Guid id)
@@ -44,9 +44,5 @@ namespace Coupon.Infrastructure.Persistence.Repositories
             return await _dbContext.Clients.SingleOrDefaultAsync(x => x.Id == id) ?? null!;
         }
 
-        public Task UpdateAsync(Client client)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -7,7 +7,7 @@ using Coupon.Core.Services;
 using Microsoft.AspNetCore.Http;
 using static Azure.Core.HttpHeader;
 
-namespace Coupon.Application.Services.Command.Coupons
+namespace Coupon.Application.Services.Coupons
 {
     public class CouponService : ICouponService
     {
@@ -28,13 +28,13 @@ namespace Coupon.Application.Services.Command.Coupons
 
         public async Task DeactivateCoupon(Guid coupon, string reason, string @operator)
         {
-           var client = await GetClientById(coupon);
-          
+            var client = await GetClientById(coupon);
+
             client.Deactivate(reason, @operator);
 
-           await _eventStore.AddAsync(client.eventsRead);
+            await _eventStore.AddAsync(client.eventsRead);
 
-           await _unitOfWork.Commit();
+            await _unitOfWork.Commit();
         }
 
         public Task<IEnumerable<Core.Entities.Coupon.Coupon>> GetAllClients()
@@ -44,10 +44,10 @@ namespace Coupon.Application.Services.Command.Coupons
 
         public async Task<Core.Entities.Coupon.Coupon> GetClientById(Guid id)
         {
-           return await _couponRepositories.GetByIdAsync(id);
+            return await _couponRepositories.GetByIdAsync(id);
         }
 
-        public  async Task<ResultViewModel> InsertCoupon(Core.Entities.Coupon.Coupon coupon, IFormFile? photo)
+        public async Task<ResultViewModel> InsertCoupon(Core.Entities.Coupon.Coupon coupon, IFormFile? photo)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Coupon.Application.Services.Command.Coupons
                     var infoBlob = await SendImageToBlobStorage(photo, coupon.Id);
 
                     var idPhoto = InsertPhoto(photo, infoBlob.blobUrl, infoBlob.fileName, coupon.Id);
-                   
+
                     coupon.InsertEvent("System", "Coupon with photo created");
 
                     await _eventStore.AddAsync(coupon.eventsRead);
@@ -84,12 +84,13 @@ namespace Coupon.Application.Services.Command.Coupons
 
                 return ResultViewModel<CouponViewModel>.Success(resultModel, "Cupom inserido com sucesso");
             }
-            catch (Exception ex) {
-                
+            catch (Exception ex)
+            {
+
                 await _unitOfWork.Rollback();
-                
-                if(photo is not null)
-                 await _blobStorageService.DeletePhoto(coupon.Id);
+
+                if (photo is not null)
+                    await _blobStorageService.DeletePhoto(coupon.Id);
 
                 return ResultViewModel.Failure(ex.Message);
             }
@@ -99,13 +100,13 @@ namespace Coupon.Application.Services.Command.Coupons
         {
             var photoSend = Photo.Factories.Create(blobFileName, blobUrl, photo!.ContentType, couponId);
 
-           return await _photoRepositories.AddAsync(photoSend);
+            return await _photoRepositories.AddAsync(photoSend);
         }
 
         public async Task<(string blobUrl, string fileName)> SendImageToBlobStorage(IFormFile photo, Guid idCoupon)
         {
             var infoBlob = await _blobStorageService.UploadPhoto(photo!, idCoupon);
-           
+
 
 
             return infoBlob;
