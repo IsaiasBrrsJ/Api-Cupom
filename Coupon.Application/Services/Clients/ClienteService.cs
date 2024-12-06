@@ -32,6 +32,7 @@ namespace Coupon.Application.Services.Command.Clients
             client!.Deactivate(reason, @operator);
 
             await _clientEvent.AddAsync(client!.eventRead);
+          
 
             await _unitOfWork.Commit();
         }
@@ -53,6 +54,7 @@ namespace Coupon.Application.Services.Command.Clients
         public async Task<Guid> InsertClient(Client client)
         {
             var id = await _clientRepositories.AddAsync(client);
+            await _clientEvent.AddAsync(client.eventRead);
 
             await _unitOfWork.Commit();
 
@@ -71,6 +73,7 @@ namespace Coupon.Application.Services.Command.Clients
 
 
             client!.UpdateEmail(email, reason, @operator);
+            await _clientEvent.AddAsync(client.eventRead);
 
             await _unitOfWork.Commit();
 
@@ -88,6 +91,7 @@ namespace Coupon.Application.Services.Command.Clients
 
 
             client!.UpdateName(name, reason, @operator);
+            await _clientEvent.AddAsync(client.eventRead);
 
             await _unitOfWork.Commit();
 
@@ -105,6 +109,7 @@ namespace Coupon.Application.Services.Command.Clients
 
 
             client!.UpdateName(phoneNumber, reason, @operator);
+            await _clientEvent.AddAsync(client.eventRead);
 
             await _unitOfWork.Commit();
 

@@ -28,14 +28,14 @@ namespace Coupon.Core.Entities.Client
 
             IsActive = !IsActive;
 
-            events.Add(Events<Client>.Factories.Create(Id, @operator, reason, nameof(Client)));
+            InsertEvent(@operator, reason);
         }
         public void AlterTypeClient(string reason, string @operator, ClientType clientType)
         {
             if (!IsActive && !Enum.IsDefined(typeof(ClientType), clientType))
                 throw new InvalidOperationException("Enum incorreto");
 
-            events.Add(Events<Client>.Factories.Create(Id, @operator, reason, nameof(Client)));
+            InsertEvent(@operator, reason);
 
             ClientType = clientType;
         }
@@ -48,7 +48,7 @@ namespace Coupon.Core.Entities.Client
                 throw new InvalidOperationException("Name, reason and operator must be informed");
 
 
-            events.Add(Events<Client>.Factories.Create(Id, @operator, reason, nameof(Client)));
+            InsertEvent(@operator, reason);
             Name = name;
 
         }
@@ -61,11 +61,14 @@ namespace Coupon.Core.Entities.Client
                 throw new InvalidOperationException("Email, reason and operator must be informed");
 
 
-            events.Add(Events<Client>.Factories.Create(Id, @operator, reason, nameof(Client)));
             Email = email;
+            InsertEvent(@operator, reason);
 
         }
-
+        public void InsertEvent(string @operator, string reason)
+        {
+            @events.Add(Events<Client>.Factories.Create(Id, @operator, reason, nameof(Client)));
+        }
         public void UpdatePhoneNumber(string phoneNumber, string reason, string @operator)
         {
             string validation = String.Empty;
@@ -74,7 +77,7 @@ namespace Coupon.Core.Entities.Client
                 throw new InvalidOperationException("PhoneNumber, reason and operator must be informed");
 
 
-            events.Add(Events<Client>.Factories.Create(Id, @operator, reason, nameof(Client)));
+            InsertEvent(@operator, reason);
             PhoneNumber = phoneNumber;
 
         }
