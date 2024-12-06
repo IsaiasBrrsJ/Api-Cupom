@@ -1,6 +1,8 @@
 ﻿using Coupon.Application.Abstractions;
 using Coupon.Application.Extension;
 using Coupon.Application.InputModel.Clients;
+using Coupon.Application.InputModel.Coupons;
+using Coupon.Application.ViewModel.Coupon;
 using Coupon.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -49,10 +51,17 @@ namespace Coupon.API.Controllers
         }
 
         [HttpGet("Client/{id}/Find-User")]
+        [ProducesResponseType(typeof(CouponViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CouponViewModel), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUser([FromRoute] Guid id)
         {
+            var client = await _clientService.GetClientById(id);
 
-            return Ok();
+            if(!id.IsGuid())
+                return NotFound("Cliente não localizado");
+
+
+            return Ok(client);
         }
     }
 }

@@ -5,10 +5,10 @@ namespace Coupon.Application.ViewModel.Coupon
     public class CouponViewModel
     {
 
-        public string BlobUrl { get;  set; } = default!;
-        public DateTime EventDate { get; set; } = default!;
-        public string CouponType { get; set; } 
-        public Guid UserId { get; set; }
+        public string BlobUrl { get; init; } = default!;
+        public DateTime EventDate { get; init; } = default!;
+        public string CouponType { get; init; } = default!;
+        public Guid UserId { get; init; }
 
        
         public static class Factories

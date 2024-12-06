@@ -42,11 +42,9 @@ namespace Coupon.Core.Entities.Coupon
         {
 
             if (!IsActive)
-                throw new InvalidOperationException("Cupom já desativado");
-
+                throw new InvalidOperationException("Invalid Coupon");
 
             Price = price;
-
         }
 
         public void UpdateValidate(DateTime validAt)
