@@ -1,5 +1,8 @@
-﻿using Coupon.Application.Services.Command.Clients;
+﻿using Coupon.Application.Command.Coupon;
+using Coupon.Application.Handler.Coupon;
+using Coupon.Application.Services.Command.Clients;
 using Coupon.Application.Services.Coupons;
+using Coupon.Core.Abstractions;
 using Coupon.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,11 +14,17 @@ namespace Coupon.Application
         {
 
             services
+                .AddPatternCQRS()
                .AddServicesApplication();
 
             return services;
         }
 
+        private static IServiceCollection AddPatternCQRS(this IServiceCollection services)
+        {
+            services.AddTransient<ICommandHandler<CreateCouponCommand>, CreateCouponCommandHandler>();
+            return services;
+        }
         private static IServiceCollection AddServicesApplication(this IServiceCollection services)
         {
 
