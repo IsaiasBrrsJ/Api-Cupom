@@ -1,6 +1,8 @@
 ﻿using Coupon.Application.Abstractions;
+using Coupon.Application.Command.Coupon;
 using Coupon.Application.Extension;
 using Coupon.Application.InputModel.Coupons;
+using Coupon.Core.Abstractions;
 using Coupon.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,26 +13,27 @@ namespace Coupon.API.Controllers
     public class CouponController : ControllerBase, ICouponController<CouponController>
     {
         private readonly ICouponService _couponService;
-        public CouponController(ICouponService couponService)
+        private readonly ICommandBus _CommandBus;
+
+        public CouponController(ICouponService couponService, ICommandBus commandBus)
         {
             _couponService = couponService;
+            _CommandBus = commandBus;
         }
 
         [HttpPost("Adcionar-Cupom")]
-        [ProducesResponseType(typeof(CouponInputModels), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CreateCouponCommand), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> AddCoupon([FromForm] CouponInputModels model)
+        public async Task<IActionResult> AddCoupon([FromForm] CreateCouponCommand command)
         {
-            var userToEntity = model.ToEntity();
 
-           var result = await _couponService.InsertCoupon(userToEntity, model.File);
+            var result = await _CommandBus.Dispatcher(command);
 
-
-            if(!result.IsSuccess)
-                return UnprocessableEntity(result);
+            if (!result.IsSuccess)
+                return UnprocessableEntity();
 
 
-            return Ok(result);
+            return Created("", result);
         }
 
         [HttpPatch("Coupoun/{id}/Deactivate")]

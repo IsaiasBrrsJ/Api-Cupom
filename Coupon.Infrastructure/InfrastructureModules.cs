@@ -1,4 +1,5 @@
-﻿using Coupon.Core.Entities;
+﻿using Coupon.Core.Abstractions;
+using Coupon.Core.Entities;
 using Coupon.Core.Event;
 using Coupon.Core.Repositories;
 using Coupon.Core.Services;
@@ -52,6 +53,9 @@ namespace Coupon.Infrastructure
 
         private static IServiceCollection AddPatterns(this IServiceCollection service)
         {
+            service.AddScoped<DependencyResolver>();
+            service.AddScoped<ICommandBus, CommandBus>();
+
             service.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return service;
