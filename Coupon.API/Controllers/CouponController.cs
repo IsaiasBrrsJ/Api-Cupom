@@ -12,12 +12,10 @@ namespace Coupon.API.Controllers
     [Route("API/")]
     public class CouponController : ControllerBase, ICouponController<CouponController>
     {
-        private readonly ICouponService _couponService;
         private readonly ICommandBus _CommandBus;
 
-        public CouponController(ICouponService couponService, ICommandBus commandBus)
+        public CouponController(ICommandBus commandBus)
         {
-            _couponService = couponService;
             _CommandBus = commandBus;
         }
 
@@ -37,14 +35,29 @@ namespace Coupon.API.Controllers
         }
 
         [HttpPatch("Coupoun/{id}/Deactivate")]
-        public async Task<IActionResult> Deactivate([FromRoute] Guid id, [FromBody] DeactivateInputModelCoupon model)
+        public async Task<IActionResult> Deactivate([FromRoute] Guid id, [FromBody] DeactivateCouponCommand command)
         {
             if (!id.IsGuid())
                 return BadRequest("Informe o Id ");
 
-            await _couponService.DeactivateCoupon(id, model.reason, model.@operator);
-          
+            var result = await _CommandBus.Dispatcher(new DeactivateCouponCommand(id, command.@operator, command.reason));
+
             return Accepted();
         }
+
+        [HttpPost("Add-Photo")]
+        public async Task<IActionResult> AddPhoto([FromForm] InsertPhotoCommand command)
+        {
+            var result = await _CommandBus.Dispatcher(command);
+
+            if (!result.IsSuccess)
+                return UnprocessableEntity(result);
+
+
+
+            return Ok(result);
+        }
+
+
     }
 }

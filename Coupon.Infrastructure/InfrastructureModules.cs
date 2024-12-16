@@ -46,6 +46,7 @@ namespace Coupon.Infrastructure
                 .AddTransient<ICouponRepositories, CouponRepositories>()
                 .AddTransient<IBlobStorageService, BlobStorageService>()
                 .AddTransient<IPhotoRepositories, PhotoRepositories>()
+
                 .AddTransient(typeof(IEventRepositories<>), typeof(EventRepositories<>));
 
             return service;

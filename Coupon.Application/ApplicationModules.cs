@@ -23,6 +23,7 @@ namespace Coupon.Application
         private static IServiceCollection AddPatternCQRS(this IServiceCollection services)
         {
             services.AddTransient<ICommandHandler<CreateCouponCommand>, CreateCouponCommandHandler>();
+            services.AddTransient<ICommandHandler<InsertPhotoCommand>, InsertPhotoCommandHandler>();
             return services;
         }
         private static IServiceCollection AddServicesApplication(this IServiceCollection services)

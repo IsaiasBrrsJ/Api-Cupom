@@ -60,7 +60,7 @@ public class CreateCouponCommandHandler : ICommandHandler<CreateCouponCommand>
 
         var viewModel = CouponViewModel.Factories.Create(DateTime.Now, couponTypeName, result);
 
-        return ResultViewModel<CouponViewModel>.Success(viewModel, "Sucesso ao criar user");
+        return ResultViewModel<CouponViewModel>.Success(viewModel, "User Created With Success");
     }
     private async Task<ResultViewModel> InsertWithPhoto(CreateCouponCommand command)
     {
@@ -82,7 +82,7 @@ public class CreateCouponCommandHandler : ICommandHandler<CreateCouponCommand>
 
 
         if (!idCoupon.IsGuid() || !idPhoto.IsGuid())
-            return ResultViewModel.Failure("Falha ao criar user");
+            return ResultViewModel.Failure("Fail");
 
         var resultModels = CouponViewModel.Factories.CreateWithPhoto(infoBlob.blobUrl, coupon.EventDate, Enum.GetName(typeof(CouponType), coupon.TypeCoupon)!, coupon.Id);
 

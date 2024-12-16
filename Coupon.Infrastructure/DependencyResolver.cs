@@ -1,6 +1,4 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;
-using System.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Coupon.Infrastructure;
 

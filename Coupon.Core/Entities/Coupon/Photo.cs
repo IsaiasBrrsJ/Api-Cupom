@@ -10,7 +10,13 @@ namespace Coupon.Core.Entities.Coupon
         public string ContentType { get; init; } = default!;
         public virtual Coupon Coupon { get; init; } = default!;
         public Guid CouponId { get; init; }
+        private static IList<Events<Photo>> @event = new List<Events<Photo>>();
+        public IReadOnlyCollection<Events<Photo>> @eventsRead = @event.AsReadOnly();
 
+        public void InsertEvent(string @operator, string reason)
+        {
+            @event.Add(Events<Photo>.Factories.Create(Id, @operator, reason, nameof(Coupon)));
+        }
         public static class Factories
         {
             public static Photo Create(string fileName,string blolUrl, string contetType ,Guid IdCoupon)
