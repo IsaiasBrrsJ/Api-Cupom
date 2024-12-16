@@ -7,6 +7,6 @@ namespace Coupon.Application.Abstractions
     public interface ICouponController<T> where T : ControllerBase
     {
         Task<IActionResult> AddCoupon(CreateCouponCommand command);
-        Task<IActionResult> Deactivate(Guid Id, DeactivateInputModelCoupon model);
+        Task<IActionResult> Deactivate(Guid Id, DeactivateCouponCommand command);
     }
 }

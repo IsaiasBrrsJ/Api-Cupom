@@ -20,7 +20,6 @@ namespace Coupon.Application.Command.Coupon
                .Coupon
                .Factories
                .Create(CouponType, Price, ValidAt, EventDate, MaxCoupon);
-
         }
     }
 }
