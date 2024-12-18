@@ -56,6 +56,7 @@ namespace Coupon.Infrastructure
         {
             service.AddScoped<DependencyResolver>();
             service.AddScoped<ICommandBus, CommandBus>();
+            service.AddScoped<IQueryBus, QueryBus>();
 
             service.AddScoped<IUnitOfWork, UnitOfWork>();
 
