@@ -1,9 +1,9 @@
 ﻿using Coupon.Application.Abstractions;
 using Coupon.Application.Command.Coupon;
 using Coupon.Application.Extension;
-using Coupon.Application.InputModel.Coupons;
+using Coupon.Application.Query.Coupon;
 using Coupon.Core.Abstractions;
-using Coupon.Core.Services;
+using Coupon.Core.BaseResult;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coupon.API.Controllers
@@ -13,10 +13,11 @@ namespace Coupon.API.Controllers
     public class CouponController : ControllerBase, ICouponController<CouponController>
     {
         private readonly ICommandBus _CommandBus;
-
-        public CouponController(ICommandBus commandBus)
+        private readonly IQueryBus _QueryBus;
+        public CouponController(ICommandBus commandBus, IQueryBus queryBus)
         {
             _CommandBus = commandBus;
+            _QueryBus = queryBus;
         }
 
         [HttpPost("Adcionar-Cupom")]
@@ -58,6 +59,18 @@ namespace Coupon.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("/coupon/{couponId}/Get-Coupon")]
+        public async Task<IActionResult> GetCouponById([FromRoute] Guid couponId)
+        {
+
+           var result = await _QueryBus.Dispatcher<GetCouponById, ResultViewModel>(new GetCouponById(couponId));
+
+            if (!result.IsSuccess)
+                return NotFound("User não encontrado");
+
+
+            return Ok(result);
+        }
 
     }
 }

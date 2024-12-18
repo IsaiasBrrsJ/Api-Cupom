@@ -21,12 +21,6 @@ namespace Coupon.Infrastructure.Persistence.Configurations
                 .HasConversion<string>()
                 .HasMaxLength(100);
 
-
-            builder
-            .HasOne(x => x.Photo)
-            .WithOne(x => x.Coupon)
-            .HasForeignKey<Photo>(x => x.CouponId);
-
         }
     }
 }

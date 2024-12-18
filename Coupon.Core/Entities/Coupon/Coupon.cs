@@ -14,8 +14,7 @@ namespace Coupon.Core.Entities.Coupon
         public DateTime EventDate { get; init; }
         public int MaxCoupon { get; init; }
         public DateTime CreationDate { get; private set; }
-        public virtual Photo? Photo { get; private set; } = default!;
-        public Guid? PhotoId { get; private set; }
+        public virtual Photo? Photo { get; set; } = default!;
         private static IList<Events<Coupon>> @event = new List<Events<Coupon>>(); 
         public IReadOnlyCollection<Events<Coupon>> @eventsRead = @event.AsReadOnly(); 
         

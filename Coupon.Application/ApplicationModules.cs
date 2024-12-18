@@ -1,8 +1,10 @@
 ﻿using Coupon.Application.Command.Coupon;
 using Coupon.Application.Handler.Coupon;
+using Coupon.Application.Query.Coupon;
 using Coupon.Application.Services.Command.Clients;
 using Coupon.Application.Services.Coupons;
 using Coupon.Core.Abstractions;
+using Coupon.Core.BaseResult;
 using Coupon.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +26,8 @@ namespace Coupon.Application
         {
             services.AddTransient<ICommandHandler<CreateCouponCommand>, CreateCouponCommandHandler>();
             services.AddTransient<ICommandHandler<InsertPhotoCommand>, InsertPhotoCommandHandler>();
+            services.AddTransient<IQueryHanlder<GetCouponById, ResultViewModel>, GetCoupounByIdQueryHandler>();
+           
             return services;
         }
         private static IServiceCollection AddServicesApplication(this IServiceCollection services)

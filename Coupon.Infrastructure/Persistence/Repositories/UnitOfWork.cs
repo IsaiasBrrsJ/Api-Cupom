@@ -34,7 +34,7 @@ namespace Coupon.Infrastructure.Persistence.Repositories
             catch(SqlException ex)
             {
                 await Rollback();
-                throw ex;
+             
                 return result;
             }
 
