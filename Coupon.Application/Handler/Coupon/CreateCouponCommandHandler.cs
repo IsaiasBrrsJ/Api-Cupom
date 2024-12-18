@@ -1,13 +1,12 @@
 ﻿using Coupon.Application.Command.Coupon;
 using Coupon.Application.Extension;
-using Coupon.Application.Services.Command.Clients;
 using Coupon.Application.ViewModel.Coupon;
 using Coupon.Core.Abstractions;
 using Coupon.Core.BaseResult;
 using Coupon.Core.Entities.Coupon;
 using Coupon.Core.Repositories;
 using Coupon.Core.Services;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace Coupon.Application.Handler.Coupon;
 

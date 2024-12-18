@@ -76,6 +76,14 @@
         }
       },
       "Azurite/2.6.5": {},
+      "Dapper/2.1.35": {
+        "runtime": {
+          "lib/net7.0/Dapper.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.1.35.13827"
+          }
+        }
+      },
       "Humanizer.Core/2.14.1": {
         "runtime": {
           "lib/net6.0/Humanizer.dll": {
@@ -1128,6 +1136,7 @@
           "Azure.Storage.Blobs": "12.19.1",
           "Azurite": "2.6.5",
           "Coupon.Core": "1.0.0",
+          "Dapper": "2.1.35",
           "Microsoft.EntityFrameworkCore": "8.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.10"
         },
@@ -1177,6 +1186,13 @@
       "sha512": "sha512-uxaL8MDK4RN5uTVDdvar/xiU9WVX9e0IXiHMRiL0qLAXub0Fr5C34OIBH+pQ1FZh7W9zfNP09yEuqKLHYHHwKw==",
       "path": "azurite/2.6.5",
       "hashPath": "azurite.2.6.5.nupkg.sha512"
+    },
+    "Dapper/2.1.35": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YKRwjVfrG7GYOovlGyQoMvr1/IJdn+7QzNXJxyMh0YfFF5yvDmTYaJOVYWsckreNjGsGSEtrMTpnzxTUq/tZQw==",
+      "path": "dapper/2.1.35",
+      "hashPath": "dapper.2.1.35.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",

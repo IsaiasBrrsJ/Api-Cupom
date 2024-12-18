@@ -24,10 +24,7 @@
         {
             Data = data;
         }
-
         public T? Data { get; }
-
-
         public static ResultViewModel<T> Success(T? data, string message) => new ResultViewModel<T>(data, true, message);
         public static ResultViewModel<T> Failure(T? data, string message) => new ResultViewModel<T>(data, false, message);
 

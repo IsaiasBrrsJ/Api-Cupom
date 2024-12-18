@@ -41,6 +41,7 @@ namespace Coupon.Infrastructure.Persistence.Repositories
 
         public async Task<Client> GetByIdAsync(Guid id)
         {
+            
             return await _dbContext.Clients.SingleOrDefaultAsync(x => x.Id == id) ?? null!;
         }
 
