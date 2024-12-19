@@ -1,5 +1,4 @@
-﻿using Coupon.Core.Entities.Client;
-using Coupon.Core.Event;
+﻿using Coupon.Core.Event;
 using Coupon.Core.Externsion;
 
 namespace Coupon.Core.Entities.Coupon
@@ -15,50 +14,60 @@ namespace Coupon.Core.Entities.Coupon
         public int MaxCoupon { get; init; }
         public DateTime CreationDate { get; private set; }
         public virtual Photo? Photo { get; set; } = default!;
-        private static IList<Events<Coupon>> @event = new List<Events<Coupon>>(); 
-        public IReadOnlyCollection<Events<Coupon>> @eventsRead = @event.AsReadOnly(); 
-        
+        private static IList<Events<Coupon>> @event = new List<Events<Coupon>>();
+        public IReadOnlyCollection<Events<Coupon>> @eventsRead = @event.AsReadOnly();
+
+
         public void Deactivate(string reason, string @operator)
+        {
+
+            InsertEvent(@operator, reason);
+
+            IsActive = !IsActive;
+        }
+
+        public void InsertEvent(string @operator, string reason)
         {
             string checkInput = String.Empty;
 
             if (checkInput.IsNullOrEmptyValues(reason, @operator))
                 throw new InvalidOperationException("Input model invalid");
-            
-            IsActive = !IsActive;
-            InsertEvent(@operator, reason);
-        }
 
-        public void InsertEvent(string @operator, string reason)
-        {
             @event.Add(Events<Coupon>.Factories.Create(Id, @operator, reason, nameof(Coupon)));
         }
-        public void UpdatePhoto(Photo photo)
-        {
-            Photo = photo;
-        }
-        public void UpdatePrice(decimal price)
+        public void UpdatePhoto(Photo photo, string reason, string @operator)
         {
 
-            if (!IsActive)
+            InsertEvent(@operator, reason);
+
+            Photo = photo;
+        }
+        public void UpdatePrice(decimal price, string reason, string @operator)
+        {
+
+            if (!IsActive || price.GetType() != typeof(decimal))
                 throw new InvalidOperationException("Invalid Coupon");
+
+            InsertEvent(@operator, reason);
 
             Price = price;
         }
 
-        public void UpdateValidate(DateTime validAt)
+        public void UpdateValidate(DateTime validAt, string reason, string @operator)
         {
 
+            InsertEvent(@operator, reason);
             ValidAt = validAt;
         }
-        public void SetExpired()
+        public void SetExpired(string reason, string @operator)
         {
-           
+
+            InsertEvent(@operator, reason);
 
             IsExpired = !IsExpired;
         }
 
-      
+
         public static class Factories
         {
             public static Coupon Create(CouponType typeCoupon, decimal price, DateTime validAt, DateTime eventDate, int max)
@@ -74,8 +83,9 @@ namespace Coupon.Core.Entities.Coupon
                     IsActive = true,
                     IsExpired = false
                 };
-              
+
             }
+
 
         }
 

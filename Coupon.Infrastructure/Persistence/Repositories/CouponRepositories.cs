@@ -29,9 +29,42 @@ namespace Coupon.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Core.Entities.Coupon.Coupon>> GetAllAsync()
+        public async Task<Core.Entities.Coupon.Coupon> FindByIdEntityAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var result =  await _dbContext.Coupon!.FindAsync(id);
+
+            return result!;
+        }
+
+        public async Task<IEnumerable<Core.Entities.Coupon.Coupon>> GetAllAsync()
+        {
+            var connectionString = _configurations.GetConnectionString("BdEstudos");
+
+            var query = @"  SELECT TypeCoupon, Price, ValidAt, IsExpired, IsActive, EventDate, MaxCoupon, CreationDate, FileName, AddedOn, BlobUrl, ContentType
+                            FROM Coupon
+                            INNER JOIN Photos
+                            ON Coupon.Id = Photos.CouponId;";
+
+
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                await conn.OpenAsync();
+
+
+                var result = await conn.QueryAsync<Core.Entities.Coupon.Coupon, Photo, Core.Entities.Coupon.Coupon>(
+                 query,
+                       (coupon, photo) =>
+                       {
+
+                           coupon.Photo = photo;
+                           return coupon;
+                       },
+                 splitOn: "FileName"
+                 );
+
+                return result.ToList();
+            }
         }
 
         public async Task<Core.Entities.Coupon.Coupon> GetByIdAsync(Guid id)
@@ -73,9 +106,10 @@ namespace Coupon.Infrastructure.Persistence.Repositories
 
         }
 
-        public Task UpdateAsync(Core.Entities.Coupon.Coupon client)
+        public void UpdateAsync(Core.Entities.Coupon.Coupon coupon)
         {
-            throw new NotImplementedException();
+           _dbContext.Entry(coupon).State = EntityState.Modified;
+
         }
     }
 }
