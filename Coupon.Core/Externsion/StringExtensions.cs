@@ -4,9 +4,10 @@
     {
         public static bool IsNullOrEmptyValues(this string value, params string[] @values)
         {
-            if (values == null)
+            if (@values == null)
                 return true;
 
+           
             foreach ( var v in @values )
             {
                 if (String.IsNullOrEmpty(v))

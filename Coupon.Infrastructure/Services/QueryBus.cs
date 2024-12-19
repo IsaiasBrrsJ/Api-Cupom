@@ -1,5 +1,4 @@
 ﻿using Coupon.Core.Abstractions;
-using Coupon.Core.BaseResult;
 
 namespace Coupon.Infrastructure.Services;
 

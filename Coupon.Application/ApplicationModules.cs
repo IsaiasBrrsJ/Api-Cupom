@@ -26,7 +26,9 @@ namespace Coupon.Application
         {
             services.AddTransient<ICommandHandler<CreateCouponCommand>, CreateCouponCommandHandler>();
             services.AddTransient<ICommandHandler<InsertPhotoCommand>, InsertPhotoCommandHandler>();
+            services.AddTransient<ICommandHandler<UpdatePriceCouponCommand>, UpdatePriceCouponCommandHandler>();
             services.AddTransient<IQueryHanlder<GetCouponById, ResultViewModel>, GetCoupounByIdQueryHandler>();
+            services.AddTransient<IQueryHanlder<GetAllCoupon, ResultViewModel>, GetAllCouponQueryHandler>();
            
             return services;
         }
