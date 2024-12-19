@@ -9,5 +9,6 @@ namespace Coupon.Application.Abstractions
         Task<IActionResult> AddCoupon(CreateCouponCommand command);
         Task<IActionResult> Deactivate(Guid Id, DeactivateCouponCommand command);
         Task<IActionResult> GetCouponById(Guid couponId);
+        Task<IActionResult> GetAllCoupon();
     }
 }
