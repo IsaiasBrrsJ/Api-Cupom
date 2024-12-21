@@ -10,5 +10,6 @@ namespace Coupon.Application.Abstractions
         Task<IActionResult> Deactivate(Guid Id, DeactivateCouponCommand command);
         Task<IActionResult> GetCouponById(Guid couponId);
         Task<IActionResult> GetAllCoupon();
+        Task<IActionResult> UpdatePhoto(UpdatePhotoCommand command);
     }
 }

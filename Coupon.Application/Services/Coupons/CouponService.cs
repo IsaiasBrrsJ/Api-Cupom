@@ -19,5 +19,9 @@ namespace Coupon.Application.Services.Coupons
             return infoBlob;
         }
 
+        public async Task<bool> DeleteImage(Guid idCoupon)
+        {
+            return await _blobStorageService.DeletePhoto(idCoupon);
+        }
     }
 }

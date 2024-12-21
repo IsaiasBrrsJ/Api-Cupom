@@ -100,5 +100,35 @@ namespace Coupon.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPatch("Coupon/SetExpired-Coupon")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status400BadRequest)]
+
+        public async Task<IActionResult> SetExpiredCoupon([FromBody] SetCouponExpiredCommand command)
+        {
+           var result = await _CommandBus.Dispatcher(command);
+
+            if (!result.IsSuccess)
+                BadRequest(result);
+
+
+            return Accepted(result);
+
+        }
+
+        [HttpPatch("Coupon/UpdatePhoto")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdatePhoto([FromForm] UpdatePhotoCommand command)
+        {
+            var result = await _CommandBus.Dispatcher(command);
+
+
+            if (!result.IsSuccess)
+                return BadRequest(result);
+
+            return Accepted(result);
+        }
     }
 }

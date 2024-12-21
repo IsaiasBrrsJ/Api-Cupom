@@ -35,12 +35,9 @@ namespace Coupon.Core.Entities.Coupon
 
             @event.Add(Events<Coupon>.Factories.Create(Id, @operator, reason, nameof(Coupon)));
         }
-        public void UpdatePhoto(Photo photo, string reason, string @operator)
+        public void UpdatePhoto( string reason, string @operator)
         {
-
             InsertEvent(@operator, reason);
-
-            Photo = photo;
         }
         public void UpdatePrice(decimal price, string reason, string @operator)
         {
@@ -74,6 +71,7 @@ namespace Coupon.Core.Entities.Coupon
             {
                 return new Coupon
                 {
+                    Id = Guid.NewGuid(),
                     TypeCoupon = typeCoupon,
                     Price = price,
                     ValidAt = validAt,
