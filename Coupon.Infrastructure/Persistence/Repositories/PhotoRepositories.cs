@@ -23,9 +23,11 @@ namespace Coupon.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Photo> GetByIdAsync(Guid id)
+        public async Task<Photo> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+          var photo= await _DbContext.Photos.FindAsync(id);
+
+            return photo!;
         }
 
         public Task UpdateAsync(Photo photo)

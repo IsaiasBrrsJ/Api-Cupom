@@ -2,5 +2,3 @@
 
 namespace Coupon.Application.Query.Coupon;
 public sealed record GetAllCoupon() : IQuery;
-
-
