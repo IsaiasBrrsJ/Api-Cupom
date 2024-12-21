@@ -1,6 +1,4 @@
 ﻿using Coupon.Core.Abstractions;
-using Coupon.Core.Entities;
-using Coupon.Core.Event;
 using Coupon.Core.Repositories;
 using Coupon.Core.Services;
 using Coupon.Infrastructure.Persistence;

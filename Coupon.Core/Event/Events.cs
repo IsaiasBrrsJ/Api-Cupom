@@ -11,6 +11,7 @@
             {
                 return new Events<T>
                 {
+                    Id =Guid.NewGuid(),
                     DomainId = idRequest,
                     @operator = @operator,
                     Reason = reason,

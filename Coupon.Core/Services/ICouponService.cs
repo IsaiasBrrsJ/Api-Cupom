@@ -1,10 +1,10 @@
-﻿using Coupon.Core.BaseResult;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace Coupon.Core.Services
+namespace Coupon.Core.Services;
+
+public interface ICouponService
 {
-    public interface ICouponService
-    {
-        Task<(string blobUrl, string fileName)> SendImageToBlobStorage(IFormFile photo, Guid idCoupon);
-    }
+    Task<(string blobUrl, string fileName)> SendImageToBlobStorage(IFormFile photo, Guid idCoupon);
+
+    Task<bool> DeleteImage(Guid idCoupon);
 }

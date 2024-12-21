@@ -24,9 +24,15 @@ namespace Coupon.Application
 
         private static IServiceCollection AddPatternCQRS(this IServiceCollection services)
         {
+            //Commands
             services.AddTransient<ICommandHandler<CreateCouponCommand>, CreateCouponCommandHandler>();
             services.AddTransient<ICommandHandler<InsertPhotoCommand>, InsertPhotoCommandHandler>();
             services.AddTransient<ICommandHandler<UpdatePriceCouponCommand>, UpdatePriceCouponCommandHandler>();
+            services.AddTransient<ICommandHandler<SetCouponExpiredCommand>, SetCouponExpiredCommandHandler>();
+            services.AddTransient<ICommandHandler<UpdatePhotoCommand>, UpdatePhotoCommandHandler>();
+
+
+            //Queries
             services.AddTransient<IQueryHanlder<GetCouponById, ResultViewModel>, GetCoupounByIdQueryHandler>();
             services.AddTransient<IQueryHanlder<GetAllCoupon, ResultViewModel>, GetAllCouponQueryHandler>();
            

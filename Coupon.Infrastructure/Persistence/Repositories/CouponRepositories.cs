@@ -31,7 +31,10 @@ namespace Coupon.Infrastructure.Persistence.Repositories
 
         public async Task<Core.Entities.Coupon.Coupon> FindByIdEntityAsync(Guid id)
         {
-            var result =  await _dbContext.Coupon!.FindAsync(id);
+            var result = await _dbContext.Coupon
+                .Include(x => x.Photo)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
 
             return result!;
         }
@@ -40,10 +43,11 @@ namespace Coupon.Infrastructure.Persistence.Repositories
         {
             var connectionString = _configurations.GetConnectionString("BdEstudos");
 
-            var query = @"  SELECT TypeCoupon, Price, ValidAt, IsExpired, IsActive, EventDate, MaxCoupon, CreationDate, FileName, AddedOn, BlobUrl, ContentType
+            var query = @"  SELECT Coupon.Id, TypeCoupon, Price, ValidAt, IsExpired, IsActive, EventDate, MaxCoupon, CreationDate, FileName, AddedOn, BlobUrl, ContentType
                             FROM Coupon
                             INNER JOIN Photos
-                            ON Coupon.Id = Photos.CouponId;";
+                            ON Coupon.Id = Photos.CouponId
+                            WHERE IsExpired = 0 AND IsActive = 1;";
 
 
 
@@ -56,7 +60,6 @@ namespace Coupon.Infrastructure.Persistence.Repositories
                  query,
                        (coupon, photo) =>
                        {
-
                            coupon.Photo = photo;
                            return coupon;
                        },
