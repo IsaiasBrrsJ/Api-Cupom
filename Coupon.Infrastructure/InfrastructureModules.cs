@@ -44,6 +44,7 @@ namespace Coupon.Infrastructure
                 .AddTransient<ICouponRepositories, CouponRepositories>()
                 .AddTransient<IBlobStorageService, BlobStorageService>()
                 .AddTransient<IPhotoRepositories, PhotoRepositories>()
+                .AddTransient<IDiscountRepositories, DiscountRepositories>()
 
                 .AddTransient(typeof(IEventRepositories<>), typeof(EventRepositories<>));
 
@@ -55,7 +56,7 @@ namespace Coupon.Infrastructure
             service.AddScoped<DependencyResolver>();
             service.AddScoped<ICommandBus, CommandBus>();
             service.AddScoped<IQueryBus, QueryBus>();
-
+            
             service.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return service;

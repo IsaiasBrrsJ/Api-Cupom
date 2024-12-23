@@ -8,7 +8,7 @@ namespace Coupon.Infrastructure.Persistence.Repositories
     {
         private readonly CouponContextDb _dbContext;
         private IDbContextTransaction _dbContextTransaction = default!;
-
+        private bool _disposed = false;
         public UnitOfWork(CouponContextDb dbContext)
         {
             _dbContext = dbContext;
@@ -25,29 +25,39 @@ namespace Coupon.Infrastructure.Persistence.Repositories
             try
             {
                 await BeginTransaction();
-                 result = await CompleteTask();
+                result = await CompleteTask();
 
                 _dbContextTransaction.Commit();
 
+
+          
+
                 return result;
             }
-            catch(SqlException ex)
+            catch (SqlException)
             {
                 await Rollback();
-             
+
+                
                 return result;
             }
+
+
+
 
         }
 
         public async Task Rollback()
         {
-             await _dbContextTransaction.RollbackAsync();
+            await _dbContextTransaction.RollbackAsync();
         }
 
         internal async Task<bool> CompleteTask()
         {
             return await _dbContext.SaveChangesAsync() > 0;
+
         }
+
+
     }
 }
