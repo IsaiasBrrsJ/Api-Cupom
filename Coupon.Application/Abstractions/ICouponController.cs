@@ -1,5 +1,4 @@
 ﻿using Coupon.Application.Command.Coupon;
-using Coupon.Application.InputModel.Coupons;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coupon.Application.Abstractions
@@ -11,5 +10,7 @@ namespace Coupon.Application.Abstractions
         Task<IActionResult> GetCouponById(Guid couponId);
         Task<IActionResult> GetAllCoupon();
         Task<IActionResult> UpdatePhoto(UpdatePhotoCommand command);
+
+        Task<IActionResult> UpdateValidate(UpdateDateValidateCommand command);
     }
 }

@@ -1,16 +1,14 @@
-﻿using Coupon.Application.Abstractions;
+﻿using Coupon.API.Route;
 using Coupon.Application.Extension;
-using Coupon.Application.InputModel.Clients;
 using Coupon.Application.ViewModel.Client;
 using Coupon.Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Coupon.API.Controllers
 {
-    [Route("api/")]
+    [Route(nameof(RouteApi.ROUTE))]
     [ApiController]
-    public class ClientController : ControllerBase, IClientController<ClientController>
+    public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
         public ClientController(IClientService clientService)
@@ -18,36 +16,36 @@ namespace Coupon.API.Controllers
             _clientService = clientService;
         }
 
-        [HttpPost("Add-Client")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AddClient([FromBody] ClientInputModel clientModel)
-        {
-            var client = clientModel.TOEntity();
+        //[HttpPost("Add-Client")]
+        //[ProducesResponseType((int)HttpStatusCode.OK)]
+        //[ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        //public async Task<IActionResult> AddClient([FromBody] ClientInputModel clientModel)
+        //{
+        //    var client = clientModel.TOEntity();
 
-            var id = await _clientService.InsertClient(client);
+        //    var id = await _clientService.InsertClient(client);
 
-            if (!id.IsGuid())
-              return BadRequest();
+        //    if (!id.IsGuid())
+        //      return BadRequest();
             
             
-            return RedirectToAction(nameof(GetUser), new { id });
+        //    return RedirectToAction(nameof(GetUser), new { id });
 
-        }
+        //}
 
-        [HttpPatch("Client/{Id}/Deactivate")]
-        [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Deactivate([FromRoute] Guid Id, [FromBody] DeactivateInputModelClient model)
-        {
+        //[HttpPatch("Client/{Id}/Deactivate")]
+        //[ProducesResponseType((int)HttpStatusCode.Accepted)]
+        //[ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        //public async Task<IActionResult> Deactivate([FromRoute] Guid Id, [FromBody] DeactivateInputModelClient model)
+        //{
 
-            if (!Id.IsGuid())
-                return BadRequest("Informe o id");
+        //    if (!Id.IsGuid())
+        //        return BadRequest("Informe o id");
 
-            await _clientService.DeactivateClient(Id, model.reason, model.@operator);
+        //    await _clientService.DeactivateClient(Id, model.reason, model.@operator);
 
-            return Accepted();
-        }
+        //    return Accepted();
+        //}
 
         [HttpGet("Client/{id}/Find-User")]
         [ProducesResponseType(typeof(ClientViewModel), StatusCodes.Status200OK)]
@@ -64,31 +62,31 @@ namespace Coupon.API.Controllers
             return Ok(clietViewModel);
         }
 
-        [HttpPatch("Client/{id}/Update-Email")]
-        [ProducesResponseType(typeof(UpdateEmail), StatusCodes.Status202Accepted)]
-        public async Task<IActionResult> UpdateEmail([FromRoute] Guid id, [FromBody] UpdateEmail model)
-        {
-           await _clientService.UpdateEmail(id, model.email, model.reason, model.@operator);
+        //[HttpPatch("Client/{id}/Update-Email")]
+        //[ProducesResponseType(typeof(UpdateEmail), StatusCodes.Status202Accepted)]
+        //public async Task<IActionResult> UpdateEmail([FromRoute] Guid id, [FromBody] UpdateEmail model)
+        //{
+        //   await _clientService.UpdateEmail(id, model.email, model.reason, model.@operator);
 
-            return Accepted();
-        }
+        //    return Accepted();
+        //}
 
-        [HttpPatch("Client/{id}/Update-Name")]
-        [ProducesResponseType(typeof(UpdateName), StatusCodes.Status202Accepted)]
-        public async Task<IActionResult> UpdateName([FromRoute] Guid id, [FromBody] UpdateName model)
-        {
-            await _clientService.UpdateName(id, model.name, model.reason, model.@operator);
+        //[HttpPatch("Client/{id}/Update-Name")]
+        //[ProducesResponseType(typeof(UpdateName), StatusCodes.Status202Accepted)]
+        //public async Task<IActionResult> UpdateName([FromRoute] Guid id, [FromBody] UpdateName model)
+        //{
+        //    await _clientService.UpdateName(id, model.name, model.reason, model.@operator);
 
-            return Accepted("Requisição aceita");
-        }
+        //    return Accepted("Requisição aceita");
+        //}
 
-        [HttpPatch("Client/{id}/Update-PhoneNumber")]
-        [ProducesResponseType(typeof(UpdatePhoneNumber), StatusCodes.Status202Accepted)]
-        public async Task<IActionResult> UpdatePhoneNumber([FromRoute] Guid id, [FromBody] UpdatePhoneNumber model)
-        {
-            await _clientService.UpdatePhoneNumber(id, model.phoneNumber, model.reason, model.@operator);
+        //[HttpPatch("Client/{id}/Update-PhoneNumber")]
+        //[ProducesResponseType(typeof(UpdatePhoneNumber), StatusCodes.Status202Accepted)]
+        //public async Task<IActionResult> UpdatePhoneNumber([FromRoute] Guid id, [FromBody] UpdatePhoneNumber model)
+        //{
+        //    await _clientService.UpdatePhoneNumber(id, model.phoneNumber, model.reason, model.@operator);
 
-            return Accepted("Requisição aceita");
-        }
+        //    return Accepted("Requisição aceita");
+        //}
     }
 }

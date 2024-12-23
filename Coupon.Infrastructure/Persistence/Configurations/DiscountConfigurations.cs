@@ -4,17 +4,23 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Coupon.Infrastructure.Persistence.Configurations
 {
-    public class DescountConfigurations : IEntityTypeConfiguration<Descount>
+    public class DiscountConfigurations : IEntityTypeConfiguration<Discount>
     {
 
-        public void Configure(EntityTypeBuilder<Descount> builder)
+        public void Configure(EntityTypeBuilder<Discount> builder)
         {
           builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
                 .ValueGeneratedNever();
 
-          
+
+            builder.Property(X => X.TipoDesconto)
+                .HasConversion<string>();
+
+
+            builder.Property(x => x.PercentDescount)
+            .HasColumnType("decimal(10,2)");
         }
     }
 }

@@ -33,6 +33,7 @@ namespace Coupon.Core.Entities.Coupon
             if (checkInput.IsNullOrEmptyValues(reason, @operator))
                 throw new InvalidOperationException("Input model invalid");
 
+            @event.Clear();
             @event.Add(Events<Coupon>.Factories.Create(Id, @operator, reason, nameof(Coupon)));
         }
         public void UpdatePhoto( string reason, string @operator)
