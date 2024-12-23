@@ -21,6 +21,7 @@ namespace Coupon.Core.Entities.Coupon
             if (validParams.IsNullOrEmptyValues(@operator, reason))
                 throw new InvalidOperationException("Invalid params");
 
+            @event.Clear();
             @event.Add(Events<Photo>.Factories.Create(Id, @operator, reason, nameof(Coupon)));
         }
 

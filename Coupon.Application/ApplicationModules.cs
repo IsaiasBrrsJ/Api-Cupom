@@ -1,6 +1,9 @@
 ﻿using Coupon.Application.Command.Coupon;
+using Coupon.Application.Command.Discount;
 using Coupon.Application.Handler.Coupon;
+using Coupon.Application.Handler.Discount;
 using Coupon.Application.Query.Coupon;
+using Coupon.Application.Query.Discount;
 using Coupon.Application.Services.Command.Clients;
 using Coupon.Application.Services.Coupons;
 using Coupon.Core.Abstractions;
@@ -24,17 +27,26 @@ namespace Coupon.Application
 
         private static IServiceCollection AddPatternCQRS(this IServiceCollection services)
         {
-            //Commands
+            //Command Create/Insert
+
             services.AddTransient<ICommandHandler<CreateCouponCommand>, CreateCouponCommandHandler>();
+            services.AddTransient<ICommandHandler<CreateDiscountCommand>, CreateDiscountCommandHandler>();
             services.AddTransient<ICommandHandler<InsertPhotoCommand>, InsertPhotoCommandHandler>();
+
+            //Command Update
+            
             services.AddTransient<ICommandHandler<UpdatePriceCouponCommand>, UpdatePriceCouponCommandHandler>();
             services.AddTransient<ICommandHandler<SetCouponExpiredCommand>, SetCouponExpiredCommandHandler>();
             services.AddTransient<ICommandHandler<UpdatePhotoCommand>, UpdatePhotoCommandHandler>();
+            services.AddTransient<ICommandHandler<UpdateDateValidateCommand>, UpdateDateValidateCommandHandler>();
+            services.AddTransient<ICommandHandler<UpdateDiscountPercentCommand>, UpdateDiscountPercentCommandHandler>();
 
 
             //Queries
+            
             services.AddTransient<IQueryHanlder<GetCouponById, ResultViewModel>, GetCoupounByIdQueryHandler>();
             services.AddTransient<IQueryHanlder<GetAllCoupon, ResultViewModel>, GetAllCouponQueryHandler>();
+            services.AddTransient<IQueryHanlder<GetDiscountById, ResultViewModel>, GetDiscountByIdQueryHandler>();
            
             return services;
         }

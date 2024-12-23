@@ -16,9 +16,10 @@ namespace Coupon.Infrastructure.Persistence.Configurations
 
 
             builder.Property(x => x.ClientType)
-                .HasConversion<string>();
+                .HasConversion<string>()
+                 .HasMaxLength(100)
+                 .IsRequired();
 
-           
         }
     }
 }

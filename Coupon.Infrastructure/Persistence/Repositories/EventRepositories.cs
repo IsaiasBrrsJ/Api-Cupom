@@ -18,7 +18,9 @@ namespace Coupon.Infrastructure.Persistence.Repositories
             {
                 await _contextDb.AddAsync(@event);
             }
-
+           
+           
+            await Task.CompletedTask;
         }
 
         public Task<IEnumerable<Events<T>>> GetAllAsync()

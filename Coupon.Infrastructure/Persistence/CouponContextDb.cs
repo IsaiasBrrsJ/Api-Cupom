@@ -13,7 +13,7 @@ namespace Coupon.Infrastructure.Persistence
         
         public DbSet<Core.Entities.Coupon.Coupon> Coupon { get; set; }
         public DbSet<Client> Clients { get; set; }  
-        public DbSet<Descount> Descounts { get; set; }
+        public DbSet<Discount> Descounts { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Events<EventBase>> EventsDomain { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
