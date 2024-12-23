@@ -1,0 +1,26 @@
+name: Auto Merge dev to homolog
+
+on:
+  push:
+    branches:
+      - dev  # O evento será disparado sempre que houver um push para o branch dev
+
+jobs:
+  merge-to-homolog:
+    runs-on: ubuntu-latest  # O job vai rodar em uma máquina Ubuntu
+
+    steps:
+    - name: Checkout do repositório
+      uses: actions/checkout@v3  # Faz o checkout do código do repositório
+
+    - name: Configurar o Git
+      run: |
+        git config --global user.name "github-actions"  # Nome do usuário, pode ser alterado se necessário
+        git config --global user.email "github-actions@github.com"  # Email do usuário, pode ser alterado se necessário
+
+    - name: Criar merge do dev para o homolog
+      run: |
+        git fetch origin homolog
+        git checkout homolog
+        git merge origin/dev --no-ff -m "Merge dev into homolog"
+        git push origin homolog
