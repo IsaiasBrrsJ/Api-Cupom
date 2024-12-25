@@ -1,5 +1,4 @@
-﻿using Coupon.API.Route;
-using Coupon.Application.Abstractions;
+﻿using Coupon.Application.Abstractions;
 using Coupon.Application.Command.Discount;
 using Coupon.Application.Query.Discount;
 using Coupon.Application.ViewModel.Discount;
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coupon.API.Controllers
 {
-    [Route(nameof(RouteApi.ROUTE))]
+    [Route("api/")]
     [ApiController]
     public class DiscountController : ControllerBase, IDiscountController<DiscountController>
     {
@@ -24,6 +23,20 @@ namespace Coupon.API.Controllers
             _queryBus = queryBus;
         }
 
+        [HttpPatch("Discount/Active")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Active([FromBody] ActiveDiscountCommand command)
+        {
+            var result = await _commandBus.Dispatcher(command);
+
+            if (!result.IsSuccess)
+                return UnprocessableEntity(result);
+
+
+            return Accepted(result);
+        }
+
         [HttpPost("Discount/Create-Discount")]
         [ProducesResponseType(typeof(ResultViewModel<Guid>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ResultViewModel),StatusCodes.Status422UnprocessableEntity)]
@@ -32,36 +45,58 @@ namespace Coupon.API.Controllers
             var result =await _commandBus.Dispatcher(command);
 
             if (!result.IsSuccess)
-                return BadRequest(result);
+                return UnprocessableEntity(result);
 
 
             return Created(String.Empty, result);
         }
+        [HttpPatch("Discount/Disable")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Disable(DisableDiscountCommand command)
+        {
+            var result = await _commandBus.Dispatcher(command);
 
-        [HttpGet("/Discount/{discountId}/Get-Discount")]
+            if (!result.IsSuccess)
+                return UnprocessableEntity(result);
+
+
+            return Accepted(result);
+        }
+
+        [HttpGet("Discount/GetAll")]
+        [ProducesResponseType(typeof(ResultViewModel<IEnumerable<DiscountViewModel>>), StatusCodes.Status200OK)]
+
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _queryBus.Dispatcher<GetAllDiscount, ResultViewModel>(new GetAllDiscount());
+
+            return Ok(result);
+        }
+
+        [HttpGet("Discount/{id}/GetById")]
         [ProducesResponseType(typeof(ResultViewModel<DiscountViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetCouponById([FromRoute] Guid discountId)
+        public async Task<IActionResult> GetById(Guid id)
         {
-
-            var result = await _queryBus.Dispatcher<GetDiscountById, ResultViewModel>(new GetDiscountById(discountId));
+            var result = await _queryBus.Dispatcher<GetDiscountById, ResultViewModel>(new GetDiscountById(id));
 
             if (!result.IsSuccess)
                 return NotFound(result);
 
 
-            return Ok(result);
+            return Ok(result);  
         }
 
-        [HttpPatch("/Discount/Update")]
+        [HttpPatch("Discount/Update")]
         [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Update([FromBody] UpdateDiscountPercentCommand command)
         {
            var result  =await _commandBus.Dispatcher(command);
             
             if(!result.IsSuccess)
-                return BadRequest(result);
+                return UnprocessableEntity(result);
 
             return Accepted(result);
         }

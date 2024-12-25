@@ -40,13 +40,16 @@ namespace Coupon.Application
             services.AddTransient<ICommandHandler<UpdatePhotoCommand>, UpdatePhotoCommandHandler>();
             services.AddTransient<ICommandHandler<UpdateDateValidateCommand>, UpdateDateValidateCommandHandler>();
             services.AddTransient<ICommandHandler<UpdateDiscountPercentCommand>, UpdateDiscountPercentCommandHandler>();
+            services.AddTransient<ICommandHandler<DisableDiscountCommand>, DisableDiscountCommandHandler>();
+            services.AddTransient<ICommandHandler<ActiveDiscountCommand>,ActiveDiscountCommandHandler>();
 
 
             //Queries
             
             services.AddTransient<IQueryHanlder<GetCouponById, ResultViewModel>, GetCoupounByIdQueryHandler>();
-            services.AddTransient<IQueryHanlder<GetAllCoupon, ResultViewModel>, GetAllCouponQueryHandler>();
+            services.AddTransient<IQueryHanlder<GetAllCoupon, ResultViewModel>, Handler.Coupon.GetAllCouponQueryHandler>();
             services.AddTransient<IQueryHanlder<GetDiscountById, ResultViewModel>, GetDiscountByIdQueryHandler>();
+            services.AddTransient<IQueryHanlder<GetAllDiscount, ResultViewModel>, GetAllDiscountQueryHandler>();
            
             return services;
         }

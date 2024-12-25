@@ -53,8 +53,6 @@ namespace Coupon.Core.Entities.Coupon
 
         public void UpdateValidate(DateTime validAt, string reason, string @operator)
         {
-
-
             InsertEvent(@operator, reason);
             ValidAt = validAt;
         }

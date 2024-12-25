@@ -35,6 +35,31 @@ public class DiscountRepositories : IDiscountRepositories
         return result!;
     }
 
+    public async Task<IEnumerable<Discount>> GetAll()
+    {
+        var connectionString = _configuration.GetConnectionString("BdEstudos");
+
+        // 1= Ativo
+        // 0 = Inativo
+        var query = @"SELECT 
+                        TipoDesconto, 
+                        PercentDescount, 
+                        CreateAt, 
+                        IsActive
+                    FROM dbo.Descounts
+                    WHERE IsActive = 1";
+
+
+        using (var conn = new SqlConnection(connectionString))
+        {
+            await conn.OpenAsync();
+
+            var result = await conn.QueryAsync<Discount>(query);
+
+            return result!;
+        }
+    }
+
     public async Task<Discount> GetByIdDapper(Guid id)
     {
         var connectionString = _configuration.GetConnectionString("BdEstudos");
