@@ -1,4 +1,4 @@
-﻿using Coupon.API.Route;
+﻿
 using Coupon.Application.Extension;
 using Coupon.Application.ViewModel.Client;
 using Coupon.Core.Services;
@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coupon.API.Controllers
 {
-    [Route(nameof(RouteApi.ROUTE))]
+
+    [Route("api/")]
     [ApiController]
     public class ClientController : ControllerBase
     {

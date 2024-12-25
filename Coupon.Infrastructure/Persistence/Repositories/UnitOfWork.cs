@@ -28,10 +28,7 @@ namespace Coupon.Infrastructure.Persistence.Repositories
                 result = await CompleteTask();
 
                 _dbContextTransaction.Commit();
-
-
-          
-
+             
                 return result;
             }
             catch (SqlException)
@@ -41,10 +38,6 @@ namespace Coupon.Infrastructure.Persistence.Repositories
                 
                 return result;
             }
-
-
-
-
         }
 
         public async Task Rollback()

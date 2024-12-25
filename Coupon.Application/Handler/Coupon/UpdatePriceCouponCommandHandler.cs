@@ -2,6 +2,7 @@
 using Coupon.Core.Abstractions;
 using Coupon.Core.BaseResult;
 using Coupon.Core.Repositories;
+using Microsoft.AspNetCore.Http;
 
 namespace Coupon.Application.Handler.Coupon;
 
@@ -11,12 +12,18 @@ public class UpdatePriceCouponCommandHandler : ICommandHandler<UpdatePriceCoupon
     private readonly ICouponRepositories _couponRepositories;
     private readonly IEventRepositories<Core.Entities.Coupon.Coupon> _eventStore;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IHttpContextAccessor _contextAccessor;
 
-    public UpdatePriceCouponCommandHandler(ICouponRepositories couponRepositories, IEventRepositories<Core.Entities.Coupon.Coupon> eventStore, IUnitOfWork unitOfWork)
+    public UpdatePriceCouponCommandHandler(
+        ICouponRepositories couponRepositories, 
+        IEventRepositories<Core.Entities.Coupon.Coupon> eventStore, 
+        IUnitOfWork unitOfWork, 
+        IHttpContextAccessor contextAccessor)
     {
         _couponRepositories = couponRepositories;
         _eventStore = eventStore;
         _unitOfWork = unitOfWork;
+        _contextAccessor = contextAccessor;
     }
 
     public async Task<ResultViewModel> ExecuteAsync(UpdatePriceCouponCommand command)
@@ -25,6 +32,8 @@ public class UpdatePriceCouponCommandHandler : ICommandHandler<UpdatePriceCoupon
 
         if (coupon == null)
             return ResultViewModel.Failure("Not Found");
+
+        var teste = _contextAccessor.HttpContext.Items;
 
         coupon.UpdatePrice(command.newPrice, command.reason, command.@operator);
 

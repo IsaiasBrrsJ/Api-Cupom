@@ -25,8 +25,22 @@ namespace Coupon.Core.Entities.Coupon
 
             UpdateAt = DateTime.UtcNow;
         }
+        public void Activate(string reason, string @operator)
+        {
+            if(IsActive)
+                throw new InvalidOperationException("Coupon is active");
+
+
+            InsertEvent(@operator, reason);
+
+            IsActive = !IsActive;
+
+        }
         public void Deactivate(string reason, string @operator)
         {
+            if(!IsActive)
+                throw new InvalidOperationException("Coupon is disable");
+
             InsertEvent(@operator, reason);
 
             IsActive = !IsActive;

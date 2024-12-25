@@ -19,7 +19,6 @@ namespace Coupon.Infrastructure.Persistence.Configurations
                 .HasConversion<string>()
                  .HasMaxLength(100)
                  .IsRequired();
-
         }
     }
 }
