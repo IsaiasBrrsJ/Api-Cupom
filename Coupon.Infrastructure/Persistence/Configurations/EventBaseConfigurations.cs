@@ -17,7 +17,6 @@ namespace Coupon.Infrastructure.Persistence.Configurations
                 .Property(x => x.Id)
                 .ValueGeneratedNever();
 
-
             builder
                 .Property(x => x.DomainId)
                 .IsRequired()
