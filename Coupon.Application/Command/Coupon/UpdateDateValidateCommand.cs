@@ -2,6 +2,6 @@
 
 namespace Coupon.Application.Command.Coupon;
 
-public sealed record UpdateDateValidateCommand(Guid couponId, decimal newPrice, string @operator, string reason) : ICommand;
+public sealed record UpdateDateValidateCommand(Guid couponId, DateTime newDateValidate, string @operator, string reason) : ICommand;
 
 

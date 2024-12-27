@@ -47,8 +47,6 @@ namespace Coupon.API.Controllers
                 return UnprocessableEntity(result);
 
             return Accepted(result);
-
-
         }
         [HttpGet("GetAll")]
         [ProducesResponseType(typeof(IEnumerable<ClientViewModel>), StatusCodes.Status200OK)]
@@ -57,7 +55,6 @@ namespace Coupon.API.Controllers
             var result = await _queryBus.Dispatcher<GetAllClients, ResultViewModel> (new GetAllClients());
 
             return Ok(result);
-
         }
 
         [HttpGet("Client/{id}/Find-User")]
@@ -69,7 +66,6 @@ namespace Coupon.API.Controllers
 
             if (!result.IsSuccess)
                 return NotFound(result);
-
 
             return Ok(result);
         }
