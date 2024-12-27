@@ -1,93 +1,116 @@
 ﻿
-using Coupon.Application.Extension;
+using Coupon.Application.Abstractions;
+using Coupon.Application.Command.Client;
+using Coupon.Application.Query.Client;
 using Coupon.Application.ViewModel.Client;
-using Coupon.Core.Services;
+using Coupon.Core.Abstractions;
+using Coupon.Core.BaseResult;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Coupon.API.Controllers
 {
 
     [Route("api/")]
     [ApiController]
-    public class ClientController : ControllerBase
+    public class ClientController : ControllerBase, IClientController<ClientController>
     {
-        private readonly IClientService _clientService;
-        public ClientController(IClientService clientService)
+        private readonly ICommandBus _commandBus;
+        private readonly IQueryBus _queryBus;
+        public ClientController(ICommandBus commandBus, IQueryBus queryBus)
         {
-            _clientService = clientService;
+            _commandBus = commandBus;
+            _queryBus = queryBus;
         }
 
-        //[HttpPost("Add-Client")]
-        //[ProducesResponseType((int)HttpStatusCode.OK)]
-        //[ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        //public async Task<IActionResult> AddClient([FromBody] ClientInputModel clientModel)
-        //{
-        //    var client = clientModel.TOEntity();
+        [HttpPost("Add")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> Create([FromBody]  CreateClientCommand command)
+        {
+            var result = await _commandBus.Dispatcher(command);
 
-        //    var id = await _clientService.InsertClient(client);
+            if (!result.IsSuccess)
+                return UnprocessableEntity(result);
 
-        //    if (!id.IsGuid())
-        //      return BadRequest();
-            
-            
-        //    return RedirectToAction(nameof(GetUser), new { id });
+            return Created("", result);
 
-        //}
+        }
+        [HttpPatch("Disable")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> Disable([FromBody] DisableClientCommand command)
+        {
+            var result = await _commandBus.Dispatcher(command);
 
-        //[HttpPatch("Client/{Id}/Deactivate")]
-        //[ProducesResponseType((int)HttpStatusCode.Accepted)]
-        //[ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        //public async Task<IActionResult> Deactivate([FromRoute] Guid Id, [FromBody] DeactivateInputModelClient model)
-        //{
+            if (!result.IsSuccess)
+                return UnprocessableEntity(result);
 
-        //    if (!Id.IsGuid())
-        //        return BadRequest("Informe o id");
+            return Accepted(result);
 
-        //    await _clientService.DeactivateClient(Id, model.reason, model.@operator);
 
-        //    return Accepted();
-        //}
+        }
+        [HttpGet("GetAll")]
+        [ProducesResponseType(typeof(IEnumerable<ClientViewModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _queryBus.Dispatcher<GetAllClients, ResultViewModel> (new GetAllClients());
+
+            return Ok(result);
+
+        }
 
         [HttpGet("Client/{id}/Find-User")]
-        [ProducesResponseType(typeof(ClientViewModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ClientViewModel), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUser([FromRoute] Guid id)
+        [ProducesResponseType(typeof(ResultViewModel<ClientViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultViewModel<ClientViewModel>), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetBydId([FromRoute] Guid id)
         {
-            var client = await _clientService.GetClientById(id);
+            var result = await _queryBus.Dispatcher<GetByIdClient, ResultViewModel>(new GetByIdClient(id));
 
-            if(!id.IsGuid())
-                return NotFound("Cliente não localizado");
+            if (!result.IsSuccess)
+                return NotFound(result);
 
-            var clietViewModel = ClientViewModel.Create(client.Name, client.PhoneNumber, client.ClientType, client.IsActive);
 
-            return Ok(clietViewModel);
+            return Ok(result);
         }
 
-        //[HttpPatch("Client/{id}/Update-Email")]
-        //[ProducesResponseType(typeof(UpdateEmail), StatusCodes.Status202Accepted)]
-        //public async Task<IActionResult> UpdateEmail([FromRoute] Guid id, [FromBody] UpdateEmail model)
-        //{
-        //   await _clientService.UpdateEmail(id, model.email, model.reason, model.@operator);
+        [HttpPatch("Update-Email")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> UpdateEmail(UpdateEmailCommand command)
+        {
+            var result = await _commandBus.Dispatcher(command);
 
-        //    return Accepted();
-        //}
+            if (!result.IsSuccess)
+                return UnprocessableEntity(result);
 
-        //[HttpPatch("Client/{id}/Update-Name")]
-        //[ProducesResponseType(typeof(UpdateName), StatusCodes.Status202Accepted)]
-        //public async Task<IActionResult> UpdateName([FromRoute] Guid id, [FromBody] UpdateName model)
-        //{
-        //    await _clientService.UpdateName(id, model.name, model.reason, model.@operator);
+            return Accepted(result);
+        }
 
-        //    return Accepted("Requisição aceita");
-        //}
+        [HttpPatch("Update-Name")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> UpdateName(UpdateNameCommand command)
+        {
+            var result = await _commandBus.Dispatcher(command);
 
-        //[HttpPatch("Client/{id}/Update-PhoneNumber")]
-        //[ProducesResponseType(typeof(UpdatePhoneNumber), StatusCodes.Status202Accepted)]
-        //public async Task<IActionResult> UpdatePhoneNumber([FromRoute] Guid id, [FromBody] UpdatePhoneNumber model)
-        //{
-        //    await _clientService.UpdatePhoneNumber(id, model.phoneNumber, model.reason, model.@operator);
+            if (!result.IsSuccess)
+                return UnprocessableEntity(result);
 
-        //    return Accepted("Requisição aceita");
-        //}
+            return Accepted(result);
+        }
+
+        [HttpPatch("Update-PhoneNumber")]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(ResultViewModel), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> UpdatePhoneNumber(UpdatePhoneNumberCommand command)
+        {
+            var result = await _commandBus.Dispatcher(command);
+
+            if (!result.IsSuccess)
+                return UnprocessableEntity(result);
+
+            return Accepted(result);
+        }
     }
 }
