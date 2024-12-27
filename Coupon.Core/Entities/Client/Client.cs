@@ -87,6 +87,7 @@ namespace Coupon.Core.Entities.Client
             {
                 return new Client
                 {
+                    Id = Guid.NewGuid(),
                     Name = name,
                     Email = email,
                     PhoneNumber = phoneNumber,

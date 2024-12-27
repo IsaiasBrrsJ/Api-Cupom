@@ -1,4 +1,6 @@
+using Coupon.API.Filter;
 using Coupon.Application;
+using Coupon.Application.Abstractions;
 using Coupon.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,9 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfra(builder.Configuration);
 builder.Services.AddApplicationsModules();
 
+
+builder.Services
+    .AddControllers(options =>
+    {
+         options.Filters.Add(HttpResponseExceptionFilter.Create().Result);
+    })
+    .ConfigureApiBehaviorOptions(x =>
+    {
+        x.SuppressModelStateInvalidFilter = true;
+    });
+
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

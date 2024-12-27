@@ -46,7 +46,7 @@ namespace Coupon.API.Controllers
 
             var result = await _CommandBus.Dispatcher(new DeactivateCouponCommand(id, command.@operator, command.reason));
 
-            return Accepted();
+            return Accepted(result);
         }
 
         [HttpPost("Add-Photo")]
