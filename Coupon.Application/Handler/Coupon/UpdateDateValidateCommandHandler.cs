@@ -28,9 +28,9 @@ public class UpdateDateValidateCommandHandler : ICommandHandler<UpdateDateValida
 
         if (coupon is null)
             return ResultViewModel.Failure("Coupon not found");
-       
 
-        coupon.UpdatePrice(command.newPrice, command.reason, command.@operator);
+
+        coupon.UpdateValidate(command.newDateValidate, command.reason, command.@operator);
 
         _couponRepositories.UpdateAsync(coupon);
 

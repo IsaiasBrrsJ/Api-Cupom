@@ -4,7 +4,6 @@ using Coupon.Application.Handler.Coupon;
 using Coupon.Application.Handler.Discount;
 using Coupon.Application.Query.Coupon;
 using Coupon.Application.Query.Discount;
-using Coupon.Application.Services.Command.Clients;
 using Coupon.Application.Services.Coupons;
 using Coupon.Core.Abstractions;
 using Coupon.Core.BaseResult;
@@ -73,7 +72,6 @@ namespace Coupon.Application
         {
 
             services
-                .AddScoped<IClientService, ClienteService>()
                 .AddScoped<ICouponService, CouponService>();
                 
 
