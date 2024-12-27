@@ -8,5 +8,7 @@ namespace Coupon.Core.Repositories
         Task<IEnumerable<Client>> GetAllAsync();
         Task<Client> GetByIdAsync(Guid id);
         Task DeleteLogicalAsync(Guid id);
+
+        Task<Client> GetByIdDapperAsync(Guid id);
     }
 }

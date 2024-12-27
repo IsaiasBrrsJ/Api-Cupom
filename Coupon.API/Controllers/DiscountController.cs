@@ -37,7 +37,7 @@ namespace Coupon.API.Controllers
             return Accepted(result);
         }
 
-        [HttpPost("Discount/Create-Discount")]
+        [HttpPost("Discount/Create")]
         [ProducesResponseType(typeof(ResultViewModel<Guid>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ResultViewModel),StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Create([FromBody] CreateDiscountCommand command)

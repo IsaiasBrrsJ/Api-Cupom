@@ -8,10 +8,10 @@ namespace Coupon.Application.ViewModel.Client
     {
         public string Email { get; init; } = default!;
         public string PhoneNumber { get; init; } = default!;
-        public ClientType ClientType { get; init; }
+        public string ClientType { get; init; }
         public bool IsActive { get; init; }
 
-        public static ClientViewModel Create(string email, string phoneNumber, ClientType client, bool isActive)
+        public static ClientViewModel Create(string email, string phoneNumber, string client, bool isActive)
         {
             return new ClientViewModel
             {

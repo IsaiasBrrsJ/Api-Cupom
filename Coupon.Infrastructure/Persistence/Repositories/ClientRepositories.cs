@@ -1,6 +1,10 @@
 ﻿using Coupon.Core.Entities.Client;
+using Coupon.Core.Entities.Coupon;
 using Coupon.Core.Repositories;
+using Dapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Coupon.Infrastructure.Persistence.Repositories
 {
@@ -8,10 +12,11 @@ namespace Coupon.Infrastructure.Persistence.Repositories
     {
 
         private readonly CouponContextDb _dbContext;
-
-        public ClientRepositories(CouponContextDb dbContext)
+        private readonly IConfiguration _configurations;
+        public ClientRepositories(CouponContextDb dbContext, IConfiguration configuration)
         {
             _dbContext = dbContext;
+            _configurations = configuration;
         }
 
         public async Task<Guid> AddAsync(Client client)
@@ -45,5 +50,26 @@ namespace Coupon.Infrastructure.Persistence.Repositories
             return await _dbContext.Clients.SingleOrDefaultAsync(x => x.Id == id) ?? null!;
         }
 
+        public async Task<Client> GetByIdDapperAsync(Guid id)
+        {
+            var connectionString = _configurations.GetConnectionString("BdEstudos");
+
+            var query = @" SELECT Id, Name, Email, PhoneNumber, ClientType, IsActive
+                            FROM dbo.Clients
+                            WHERE Id = @IdClient";
+
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@IdClient", id);
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                await conn.OpenAsync();
+
+                var result = await conn.QuerySingleOrDefaultAsync<Client>(query, parameters);
+
+                return result!;
+            }
+        }
     }
 }
