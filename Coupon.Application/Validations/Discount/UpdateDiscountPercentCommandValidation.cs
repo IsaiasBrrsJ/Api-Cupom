@@ -1,11 +1,11 @@
-﻿
-using Coupon.Application.Command.Discount;
+﻿using Coupon.Application.Command.Discount;
 using FluentValidation;
 
 namespace Coupon.Application.Validations.Discount;
-public sealed class CreateDiscountCommandValidation : AbstractValidator<CreateDiscountCommand>
+
+public sealed class UpdateDiscountPercentCommandValidation : AbstractValidator<UpdateDiscountPercentCommand>
 {
-    public CreateDiscountCommandValidation()
+    public UpdateDiscountPercentCommandValidation()
     {
         RuleFor(x => x.@operator)
             .NotEmpty().WithMessage("invalid operator")
@@ -15,7 +15,10 @@ public sealed class CreateDiscountCommandValidation : AbstractValidator<CreateDi
              .NotEmpty().WithMessage("invalid reason")
              .MaximumLength(100).WithMessage("reason - Max Length 100");
 
-        RuleFor(x => x.clientType)
-             .IsInEnum().WithMessage("invalid ClientType ");
+        RuleFor(x => x.percent)
+            .NotNull().WithMessage("percent invalid");
+          
+
     }
+   
 }
